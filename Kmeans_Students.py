@@ -1,4 +1,4 @@
-__authors__ = ['1491858','1493406', 'NIU_BLANCA']
+__authors__ = ['1491858','1493406', '1493962']
 __group__ = 'DL15'
 
 import numpy as np
@@ -21,10 +21,6 @@ class KMeans:
     #############################################################
     ##  THIS FUNCTION CAN BE MODIFIED FROM THIS POINT, if needed
     #############################################################
-
-
-
-
 
 
     def _init_X(self, X):
