@@ -34,8 +34,11 @@ class KMeans:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
-        self.X = np.random.rand(100, 5)
 
+        if len(X[0] != 3):
+            X = X.reshape(len(X)*len(X[0]), 3)
+
+        self.X = X
 
 
     def _init_options(self, options=None):
@@ -105,6 +108,7 @@ class KMeans:
         pass
 
     def converges(self):
+        ret = False
         """
         Checks if there is a difference between current and old centroids
         """
@@ -112,7 +116,7 @@ class KMeans:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
-        return True
+        return ret
 
     def fit(self):
         """
