@@ -30,10 +30,8 @@ class KMeans:
                     if matrix has more than 2 dimensions, the dimensionality of the smaple space is the length of
                     the last dimension
         """
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
+
+        # !!!!!!!  COMPROVAR QUE ELS ELEMENTS DE LA MATRIU SIGUIN FLOAT!!!!!!!!!!
 
         if len(X[0] != 3):
             X = X.reshape(len(X)*len(X[0]), 3)
