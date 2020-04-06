@@ -2,6 +2,7 @@ __authors__ = ['1491858','1493406', '1493962']
 __group__ = 'DL15'
 
 import numpy as np
+import copy
 import utils
 
 class KMeans:
@@ -98,9 +99,11 @@ class KMeans:
                         break
 
             '''for pixel in self.X:
-                if (pixel not in self.centroids):
-                    self.centroids[index_pixel] = pixel
-                    self.old_centroids[index_pixel] = pixel
+                if (pixel == self.centroids).all(1).any():
+                    #self.centroids[index_pixel] = pixel
+                    #self.old_centroids[index_pixel] = pixel
+                    np.append(self.centroids, pixel)
+                    np.append(self.old_centroids, pixel)
                     index_pixel += 1
                     if index_pixel == self.K:
                         break
@@ -141,7 +144,29 @@ class KMeans:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
-        pass
+
+        # Copiem el self.centroids al self.old_centroids tal i com ens di ¡u l'enunciat
+        self.old_centroids = copy.deepcopy(self.centroids)
+
+        aux = np.empty(self.K, float)
+        aux_centroid = np.empty(2, float)
+
+        # Classifiquem els pixels segons el centroid al qual estiguin associats (contingut del self.labels)
+        for element, pixel in zip(self.labels, self.X):
+            if aux[element] is None:
+                aux[element] = pixel
+            else:
+                aux[element] = np.append(aux[element], pixel)
+
+        # Calculem el nou centroid per a cadascun dels groups
+        for group, index in enumerate(aux):
+            length = group.shape[0]
+            sum_x = np.sum(group[:, 0])
+            sum_y = np.sum(group[:, 1])
+            np.array((sum_x/length), (sum_y/length))
+            self.centroids[index] = copy.deepcopy(np.array((sum_x/length), (sum_y/length)))
+
+        #LINK algorisme: https://stackoverflow.com/questions/23020659/fastest-way-to-calculate-the-centroid-of-a-set-of-coordinate-tuples-in-python-wi#23021198
 
     def converges(self):
 
