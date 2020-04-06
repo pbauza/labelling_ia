@@ -13,6 +13,7 @@ class KMeans:
                  K (int): Number of cluster
                  options (dict): dictºionary with options
             """
+
         self.num_iter = 0
         self.K = K
         self._init_X(X)
@@ -31,12 +32,12 @@ class KMeans:
                     the last dimension
         """
 
-        # !!!!!!!  COMPROVAR QUE ELS ELEMENTS DE LA MATRIU SIGUIN FLOAT!!!!!!!!!!
-
         if len(X[0] != 3):
-            X = X.reshape(len(X)*len(X[0]), 3)
+            X = X.reshape(len(X)*len(X[0]), 3) #numpy(numpy(numpy(float,float,float))) X[19][0][1/2/3]
 
-        self.X = X
+        self.X = X.astype(float)
+
+
 
 
     def _init_options(self, options=None):
@@ -66,8 +67,6 @@ class KMeans:
         #############################################################
 
 
-
-
     def _init_centroids(self):
         """
         Initialization of centroids
@@ -77,12 +76,30 @@ class KMeans:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
+        self.centroids = np.empty([self.K, 3], float)
+        self.old_centroids = np.empty([self.K, 3], float)
+        index_pixel = 1
+        found = False
         if self.options['km_init'].lower() == 'first':
+            self.centroids[0] = self.X[0]
+            for pixel in self.X[1:]:
+                found = False
+                index_centroids = 0
+                while index_centroids < index_pixel and found is False:
+                    if (pixel == self.centroids[index_centroids]).all():
+                        found = True
+                    index_centroids += 1;
+                if found is False:
+                    self.centroids[index_pixel] = pixel
+                    self.old_centroids[index_pixel] = pixel
+                    index_pixel += 1
+                    if index_pixel == self.K:
+                        break
+
+        elif self.options['km_init'].lower() == 'random':
             self.centroids = np.random.rand(self.K, self.X.shape[1])
             self.old_centroids = np.random.rand(self.K, self.X.shape[1])
-        else:
-            self.centroids = np.random.rand(self.K, self.X.shape[1])
-            self.old_centroids =np.random.rand(self.K, self.X.shape[1])
+        #elif self.options['km_init'].lower() == 'custom':
 
 
     def get_labels(self):
@@ -149,37 +166,37 @@ class KMeans:
         pass
 
 
-def distance(X, C):
-    """
-    Calculates the distance between each pixcel and each centroid
-    Args:
-        X (numpy array): PxD 1st set of data points (usually data points)
-        C (numpy array): KxD 2nd set of data points (usually cluster centroids points)
+    def distance(X, C):
+        """
+        Calculates the distance between each pixcel and each centroid
+        Args:
+            X (numpy array): PxD 1st set of data points (usually data points)
+            C (numpy array): KxD 2nd set of data points (usually cluster centroids points)
 
-    Returns:
-        dist: PxK numpy array position ij is the distance between the
-        i-th point of the first set an the j-th point of the second set
-    """
+        Returns:
+            dist: PxK numpy array position ij is the distance between the
+            i-th point of the first set an the j-th point of the second set
+        """
 
-    #########################################################
-    ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-    ##  AND CHANGE FOR YOUR OWN CODE
-    #########################################################
-    return np.random.rand(X.shape[0], C.shape[0])
+        #########################################################
+        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
+        ##  AND CHANGE FOR YOUR OWN CODE
+        #########################################################
+        return np.random.rand(X.shape[0], C.shape[0])
 
 
-def get_colors(centroids):
-    """
-    for each row of the numpy matrix 'centroids' returns the color laber folllowing the 11 basic colors as a LIST
-    Args:
-        centroids (numpy array): KxD 1st set of data points (usually centroind points)
+    def get_colors(centroids):
+        """
+        for each row of the numpy matrix 'centroids' returns the color laber folllowing the 11 basic colors as a LIST
+        Args:
+            centroids (numpy array): KxD 1st set of data points (usually centroind points)
 
-    Returns:
-        lables: list of K labels corresponding to one of the 11 basic colors
-    """
+        Returns:
+            lables: list of K labels corresponding to one of the 11 basic colors
+        """
 
-    #########################################################
-    ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-    ##  AND CHANGE FOR YOUR OWN CODE
-    #########################################################
-    return list(utils.colors)
+        #########################################################
+        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
+        ##  AND CHANGE FOR YOUR OWN CODE
+        #########################################################
+        return list(utils.colors)
