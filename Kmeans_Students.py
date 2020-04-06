@@ -171,31 +171,31 @@ class KMeans:
         pass
 
 
-    def distance(X, C):
-        """
-        Calculates the distance between each pixcel and each centroid
-        Args:
-            X (numpy array): PxD 1st set of data points (usually data points)
-            C (numpy array): KxD 2nd set of data points (usually cluster centroids points)
+def distance(X, C):
+    """
+    Calculates the distance between each pixcel and each centroid
+    Args:
+        X (numpy array): PxD 1st set of data points (usually data points)
+        C (numpy array): KxD 2nd set of data points (usually cluster centroids points)
 
-        Returns:
-            dist: PxK numpy array position ij is the distance between the
-            i-th point of the first set an the j-th point of the second set
-        """
+    Returns:
+        dist: PxK numpy array position ij is the distance between the
+        i-th point of the first set an the j-th point of the second set
+    """
 
-        #########################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #########################################################
+    #########################################################
+    ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
+    ##  AND CHANGE FOR YOUR OWN CODE
+    #########################################################
 
-        distaux = []
-        for filaI in X:
-            var = []
-            for filaC in C:
-                var.append(np.linalg.norm(filaI - filaC))
-            distaux.append(var)
-        dist = np.array(distaux)
-        return dist
+    distaux = []
+    for filaI in X:
+        var = []
+        for filaC in C:
+            var.append(np.linalg.norm(filaI - filaC))
+        distaux.append(var)
+    dist = np.array(distaux)
+    return dist
 
 
     def get_colors(centroids):
