@@ -123,7 +123,7 @@ class KMeans:
         pass
 
     def converges(self):
-        ret = False
+
         """
         Checks if there is a difference between current and old centroids
         """
@@ -131,7 +131,12 @@ class KMeans:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
-        return ret
+        value = np.mean(self.centroids - self.old_centroids)
+        if value == 0:
+            res = True
+        else:
+            res = False
+        return res
 
     def fit(self):
         """
@@ -182,7 +187,15 @@ class KMeans:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #########################################################
-        return np.random.rand(X.shape[0], C.shape[0])
+
+        distaux = []
+        for filaI in X:
+            var = []
+            for filaC in C:
+                var.append(np.linalg.norm(filaI - filaC))
+            distaux.append(var)
+        dist = np.array(distaux)
+        return dist
 
 
     def get_colors(centroids):
