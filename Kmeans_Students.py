@@ -18,6 +18,7 @@ class KMeans:
         self.K = K
         self._init_X(X)
         self._init_options(options)  # DICT options
+        self._init_centroids()
 
     #############################################################
     ##  THIS FUNCTION CAN BE MODIFIED FROM THIS POINT, if needed
@@ -96,6 +97,15 @@ class KMeans:
                     if index_pixel == self.K:
                         break
 
+            '''for pixel in self.X:
+                if (pixel not in self.centroids):
+                    self.centroids[index_pixel] = pixel
+                    self.old_centroids[index_pixel] = pixel
+                    index_pixel += 1
+                    if index_pixel == self.K:
+                        break
+            '''
+
         elif self.options['km_init'].lower() == 'random':
             self.centroids = np.random.rand(self.K, self.X.shape[1])
             self.old_centroids = np.random.rand(self.K, self.X.shape[1])
@@ -110,7 +120,18 @@ class KMeans:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
-        self.labels = np.random.randint(self.K, size=self.X.shape[0])
+        #self.labels = np.random.randint(self.K, size=self.X.shape[0])
+
+        self.labels = np.empty(len(self.X))
+        distances = distance(self.X, self.centroids)
+        j = 0
+
+        for d in distances:
+            min = d.min()
+            i, = np.where(d == min)
+            self.labels[j] = i[0]
+            j += 1
+
 
     def get_centroids(self):
         """
