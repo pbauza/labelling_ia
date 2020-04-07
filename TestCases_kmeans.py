@@ -67,7 +67,6 @@ class TestCases(unittest.TestCase):
             km.fit()
             np.testing.assert_array_equal(km.centroids, self.test_cases['kmeans'][ix])
 
-
     def test_find_bestK(self):
         for ix, input in enumerate(self.test_cases['input']):
             km = KMeans(input, self.test_cases['K'][ix])

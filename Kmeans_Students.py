@@ -4,6 +4,7 @@ __group__ = 'DL15'
 import numpy as np
 import copy
 import utils
+import math
 
 class KMeans:
 
@@ -20,7 +21,8 @@ class KMeans:
         self._init_X(X)
         self._init_options(options)  # DICT options
         self._init_centroids()
-        self.wcd = np.zeros([self.K], float)
+        self.index = np.zeros([self.K], int)
+        self._init_wcd()
 
     def _init_X(self, X):
 
@@ -85,6 +87,9 @@ class KMeans:
         #elif self.options['km_init'].lower() == 'custom':
 
 
+    def _init_wcd(self):
+        self.wcd = np.zeros([self.K], float)
+
     def get_labels(self):
 
         """        Calculates the closest centroid of all points in X
@@ -97,21 +102,37 @@ class KMeans:
             min = d.min()
             i, = np.where(d == min)
             self.labels[j] = i[0]
+            self.index[i[0]] += 1
 
     def get_centroids(self):
         """
         Calculates coordinates of centroids based on the coordinates of all the points assigned to the centroid
         """
-        # Copiem el self.centroids al self.old_centroids tal i com ens diu l'enunciat
         self.old_centroids = copy.copy(self.centroids[:])
 
         aux = np.empty([self.K], np.object)
+
         for index_pixel, index_centroid in enumerate(self.labels):
             if aux[index_centroid] is None:
-                aux[index_centroid] = np.array([-1,-1,-1])
-            aux[index_centroid] = np.row_stack((aux[index_centroid], self.X[index_pixel]))
+                aux[index_centroid] = []
+            aux[index_centroid].append(self.X[index_pixel])
+
         for index_centroid, points in enumerate(aux):
-            self.centroids[index_centroid] = np.array([sum(i)/len(points[1:]) for i in zip(*points[1:])])
+            # MANERA COMPACTA:
+            self.centroids[:] = np.array([aux.sum(0) / self.index[:] for i in zip(*points)])
+
+        # # Copiem el self.centroids al self.old_centroids tal i com ens diu l'enunciat
+        # self.old_centroids = copy.copy(self.centroids[:])
+        #
+        # aux = np.zeros([self.K, self.index.max(), 3], float)
+        # index = np.zeros([self.K], int)
+        #
+        # for index_pixel, index_centroid in enumerate(self.labels):
+        #     aux[index_centroid][index[index_centroid]] = self.X[index_pixel]
+        #     index[index_centroid] += 1
+        # self.centroids = np.transpose(aux.T.sum(1)/(self.index[:]))
+
+
 
     def converges(self):
         """
@@ -136,10 +157,12 @@ class KMeans:
         aux = np.empty([self.K], np.object)
         dist = 0
 
+        '''
         for index_pixel, index_centroid in enumerate(self.labels):
             if aux[index_centroid] is None:
                 aux[index_centroid] = []
             aux[index_centroid].append(self.X[index_pixel])
+
 
         for i, cx in enumerate(aux):
             x = np.zeros([1, 3], float)
@@ -151,18 +174,51 @@ class KMeans:
                 #dist += y
             dist = np.sum(dist_array)
             self.wcd[i] = dist/len(cx)
-            long = len(cx)
-            print(self.wcd[i])
+        '''
+
+        for index_pixel, index_centroid in enumerate(self.labels):
+            if aux[index_centroid] is None:
+                aux[index_centroid] = []
+            aux[index_centroid].append(self.X[index_pixel])
+
+        for i, aux_row in enumerate(aux):
+            for pixel in aux_row:
+                # AQUEST WHILE ES POT OPTIMITZAR. SI HO INTERPRETÈSSIM COM UNA MATRIU, SERIA SIMÈTRICA I PER TANT, PODRÍEM FER LA METITAT D'OPERACIONS
+                counter = 0
+                while counter < len(aux_row):
+                    dist += math.sqrt(
+                        pow(pixel[0] - aux_row[counter][0], 2) + pow(pixel[1] - aux_row[counter][1], 2) + pow(
+                            pixel[1] - aux_row[counter][1], 2))
+                    counter += 1
+            self.wcd[i] = dist / len(aux_row)
+            dist = 0
 
     def find_bestK(self, max_K):
         """
          sets the best k anlysing the results up to 'max_K' clusters
         """
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
-        pass
+        self.K = 2
+        self._init_centroids()
+        self._init_wcd()
+
+        self.fit()
+        self.withinClassDistance()
+        aux = np.sum(self.wcd)
+        self.K += 1
+        flag = False
+
+        while (self.K <= max_K) and (flag != True):
+            self._init_centroids()
+            self.fit()
+            self._init_wcd()
+            self.withinClassDistance()
+            newDec = (np.sum(self.wcd)/aux)*100
+            print(newDec)
+            if(newDec < 20):
+                flag = True
+            else:
+                self.K += 1
+                aux = newDec
 
 
 def distance(X, C):
