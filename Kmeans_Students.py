@@ -20,6 +20,7 @@ class KMeans:
         self._init_X(X)
         self._init_options(options)  # DICT options
         self._init_centroids()
+        self.wcd = 0
 
     #############################################################
     ##  THIS FUNCTION CAN BE MODIFIED FROM THIS POINT, if needed
@@ -153,6 +154,9 @@ class KMeans:
                 aux[index_centroid] = []
             aux[index_centroid].append(self.X[index_pixel])
 
+        for element in aux:
+            print(element)
+
         for index_centroid, points in enumerate(aux):
             # MANERA COMPACTA:
             self.centroids[index_centroid] = np.array([sum(i)/len(points) for i in zip(*points)])
@@ -175,6 +179,7 @@ class KMeans:
         # Classifiquem els pixels segons el centroid al qual estiguin associats (contingut del self.labels)
         for element, pixel in zip(self.labels, self.X):
             if aux[element] is None:
+                aux[element] = []
                 aux[element] = pixel
             else:
                 aux[element] = np.append(aux[element], pixel)
@@ -216,7 +221,7 @@ class KMeans:
         #######################################################
         pass
 
-    def whitinClassDistance(self):
+    def whithinClassDistance(self):
         """
          returns the whithin class distance of the current clustering
         """
@@ -225,7 +230,19 @@ class KMeans:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
-        return np.random.rand()
+
+        aux = np.empty([self.K], np.object)
+        wcd = np.zeros([self.K], float)
+
+        for index_pixel, index_centroid in enumerate(self.labels):
+            if aux[index_centroid] is None:
+                aux[index_centroid] = []
+            aux[index_centroid].append(self.X[index_pixel])
+
+        for i, element in enumerate(aux):
+            print(element)
+
+            #wcd[i] = sum(aux[i])  /len(aux[i])
 
     def find_bestK(self, max_K):
         """
@@ -265,18 +282,18 @@ def distance(X, C):
     return dist
 
 
-    def get_colors(centroids):
-        """
-        for each row of the numpy matrix 'centroids' returns the color laber folllowing the 11 basic colors as a LIST
-        Args:
-            centroids (numpy array): KxD 1st set of data points (usually centroind points)
+def get_colors(centroids):
+    """
+    for each row of the numpy matrix 'centroids' returns the color laber folllowing the 11 basic colors as a LIST
+    Args:
+        centroids (numpy array): KxD 1st set of data points (usually centroind points)
 
-        Returns:
-            lables: list of K labels corresponding to one of the 11 basic colors
-        """
+    Returns:
+        lables: list of K labels corresponding to one of the 11 basic colors
+    """
 
-        #########################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #########################################################
-        return list(utils.colors)
+    #########################################################
+    ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
+    ##  AND CHANGE FOR YOUR OWN CODE
+    #########################################################
+    return list(utils.colors)
