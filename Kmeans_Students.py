@@ -102,7 +102,7 @@ class KMeans:
             min = d.min()
             i, = np.where(d == min)
             self.labels[j] = i[0]
-            self.index[i[0]] += 1
+            #self.index[i[0]] += 1
 
     def get_centroids(self):
         """
