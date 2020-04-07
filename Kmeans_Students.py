@@ -20,7 +20,7 @@ class KMeans:
         self._init_X(X)
         self._init_options(options)  # DICT options
         self._init_centroids()
-        self.wcd = 0
+        self.wcd = np.zeros([self.K], float)
 
     def _init_X(self, X):
 
@@ -79,8 +79,6 @@ class KMeans:
                     if index_pixel == self.K:
                         self.centroids = aux
                         break
-
-
         elif self.options['km_init'].lower() == 'random':
             self.centroids = np.random.rand(self.K, self.X.shape[1])
             self.old_centroids = np.random.rand(self.K, self.X.shape[1])
@@ -108,14 +106,12 @@ class KMeans:
         self.old_centroids = copy.copy(self.centroids[:])
 
         aux = np.empty([self.K], np.object)
-
         for index_pixel, index_centroid in enumerate(self.labels):
             if aux[index_centroid] is None:
-                aux[index_centroid] = []
-            aux[index_centroid].append(self.X[index_pixel])
-
+                aux[index_centroid] = np.array([-1,-1,-1])
+            aux[index_centroid] = np.row_stack((aux[index_centroid], self.X[index_pixel]))
         for index_centroid, points in enumerate(aux):
-            self.centroids[index_centroid] = np.array([sum(i)/len(points) for i in zip(*points)])
+            self.centroids[index_centroid] = np.array([sum(i)/len(points[1:]) for i in zip(*points[1:])])
 
     def converges(self):
         """
@@ -128,10 +124,6 @@ class KMeans:
         Runs K-Means algorithm until it converges or until the number
         of iterations is smaller than the maximum number of iterations.
         """
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
         while (self.converges() != True):
             self.get_labels()
             self.get_centroids()
@@ -141,12 +133,6 @@ class KMeans:
         """
          returns the whithin class distance of the current clustering
         """
-
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
-
         aux = np.empty([self.K], np.object)
         dist = 0
 
@@ -190,13 +176,7 @@ def distance(X, C):
         dist: PxK numpy array position ij is the distance between the
         i-th point of the first set an the j-th point of the second set
     """
-
-    #########################################################
-    ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-    ##  AND CHANGE FOR YOUR OWN CODE
-    #########################################################
-    dist = np.sqrt(((X[:, :, None] - C[:, :, None].T) ** 2).sum(1))
-    return dist
+    return np.sqrt(((X[:, :, None] - C[:, :, None].T) ** 2).sum(1))
 
 
 def get_colors(centroids):
