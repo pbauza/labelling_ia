@@ -78,7 +78,6 @@ class KMeans:
                     index_pixel += 1
                     if index_pixel == self.K:
                         self.centroids = aux
-                        self.old_centroids = aux
                         break
 
 
@@ -122,12 +121,7 @@ class KMeans:
         """
         Checks if there is a difference between current and old centroids
         """
-        value = np.mean(self.centroids - self.old_centroids)
-        if value == 0:
-            res = True
-        else:
-            res = False
-        return res
+        return np.equal(self.centroids, self.old_centroids).all()
 
     def fit(self):
         """
@@ -138,9 +132,12 @@ class KMeans:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
-        pass
+        while (self.converges() != True):
+            self.get_labels()
+            self.get_centroids()
+            self.num_iter = self.num_iter + 1
 
-    def whithinClassDistance(self):
+    def withinClassDistance(self):
         """
          returns the whithin class distance of the current clustering
         """
@@ -151,17 +148,25 @@ class KMeans:
         #######################################################
 
         aux = np.empty([self.K], np.object)
-        wcd = np.zeros([self.K], float)
+        dist = 0
 
         for index_pixel, index_centroid in enumerate(self.labels):
             if aux[index_centroid] is None:
                 aux[index_centroid] = []
             aux[index_centroid].append(self.X[index_pixel])
 
-        for i, element in enumerate(aux):
-            print(element)
-
-            #wcd[i] = sum(aux[i])  /len(aux[i])
+        for i, cx in enumerate(aux):
+            x = np.zeros([1, 3], float)
+            x[0] = cx[i]
+            dist_array = distance(x, np.array(cx))
+            #for y in cx:
+            #for y in dist_array:
+                #dist += math.sqrt(pow(x[0]-y[0], 2) + pow(x[1]-y[1], 2) + pow(x[2]-y[2], 2))
+                #dist += y
+            dist = np.sum(dist_array)
+            self.wcd[i] = dist/len(cx)
+            long = len(cx)
+            print(self.wcd[i])
 
     def find_bestK(self, max_K):
         """
