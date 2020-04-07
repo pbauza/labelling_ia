@@ -78,6 +78,7 @@ class KMeans:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
+        '''        
         self.centroids = np.empty([self.K, 3], float)
         self.old_centroids = np.empty([self.K, 3], float)
         index_pixel = 1
@@ -97,6 +98,23 @@ class KMeans:
                     index_pixel += 1
                     if index_pixel == self.K:
                         break
+        '''
+
+        self.centroids = np.zeros([self.K, 3], float)
+        self.centroids = np.zeros([self.K, 3], float)
+        aux = np.zeros([self.K, 3], float)
+        index_pixel = 0
+        if self.options['km_init'].lower() == 'first':
+            for pixel in self.X:
+                if not any(np.equal(pixel, aux).all(1)):
+                    aux[index_pixel] = pixel
+                    index_pixel += 1
+                    if index_pixel == self.K:
+                        self.centroids = aux
+                        self.old_centroids = aux
+                        break
+
+
         elif self.options['km_init'].lower() == 'random':
             self.centroids = np.random.rand(self.K, self.X.shape[1])
             self.old_centroids = np.random.rand(self.K, self.X.shape[1])
@@ -166,8 +184,8 @@ class KMeans:
             length = group.shape[0]
             sum_x = np.sum(group[:, 0])
             sum_y = np.sum(group[:, 1])
-            np.array((sum_x/length), (sum_y/length))
-            self.centroids[index] = copy.deepcopy(np.array((sum_x/length), (sum_y/length)))
+            sum_z = np-sum(group[:, 2])
+            self.centroids[index] = copy.deepcopy(np.array(np.array((sum_x/length), (sum_y/length), (sum_z/length)))
 
         #LINK algorisme: https://stackoverflow.com/questions/23020659/fastest-way-to-calculate-the-centroid-of-a-set-of-coordinate-tuples-in-python-wi#23021198
     '''
