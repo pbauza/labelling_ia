@@ -97,18 +97,6 @@ class KMeans:
                     index_pixel += 1
                     if index_pixel == self.K:
                         break
-
-            '''for pixel in self.X:
-                if (pixel == self.centroids).all(1).any():
-                    #self.centroids[index_pixel] = pixel
-                    #self.old_centroids[index_pixel] = pixel
-                    np.append(self.centroids, pixel)
-                    np.append(self.old_centroids, pixel)
-                    index_pixel += 1
-                    if index_pixel == self.K:
-                        break
-            '''
-
         elif self.options['km_init'].lower() == 'random':
             self.centroids = np.random.rand(self.K, self.X.shape[1])
             self.old_centroids = np.random.rand(self.K, self.X.shape[1])
@@ -125,29 +113,44 @@ class KMeans:
         #######################################################
         #self.labels = np.random.randint(self.K, size=self.X.shape[0])
 
-        self.labels = np.empty(len(self.X))
+        self.labels = np.empty(len(self.X), int)
         distances = distance(self.X, self.centroids)
-        j = 0
 
-        for d in distances:
+        for j,d in enumerate(distances):
             min = d.min()
             i, = np.where(d == min)
             self.labels[j] = i[0]
-            j += 1
-
 
     def get_centroids(self):
         """
         Calculates coordinates of centroids based on the coordinates of all the points assigned to the centroid
         """
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
+        # Copiem el self.centroids al self.old_centroids tal i com ens diu l'enunciat
+        self.old_centroids = copy.copy(self.centroids[:])
 
-        # Copiem el self.centroids al self.old_centroids tal i com ens di ¡u l'enunciat
-        self.old_centroids = copy.deepcopy(self.centroids)
+        aux = np.empty([self.K], np.object)
 
+        for index_pixel, index_centroid in enumerate(self.labels):
+            if aux[index_centroid] is None:
+                aux[index_centroid] = []
+            aux[index_centroid].append(self.X[index_pixel])
+
+        for index_centroid, points in enumerate(aux):
+            # MANERA COMPACTA:
+            self.centroids[index_centroid] = np.array([sum(i)/len(points) for i in zip(*points)])
+            # MANERA NO COMPACTA:
+            # sumx = 0
+            # sumy = 0
+            # sumz = 0
+            # for pixel in points:
+            #     long = len(points)
+            #     sumx += pixel[0]
+            #     sumy += pixel[1]
+            #     sumz += pixel[2]
+            # self.centroids[index_centroid] = (sumx / long, sumy / long, sumz / long)
+
+
+    '''
         aux = np.empty(self.K, float)
         aux_centroid = np.empty(2, float)
 
@@ -167,7 +170,7 @@ class KMeans:
             self.centroids[index] = copy.deepcopy(np.array((sum_x/length), (sum_y/length)))
 
         #LINK algorisme: https://stackoverflow.com/questions/23020659/fastest-way-to-calculate-the-centroid-of-a-set-of-coordinate-tuples-in-python-wi#23021198
-
+    '''
     def converges(self):
 
         """
