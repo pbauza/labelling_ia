@@ -119,7 +119,7 @@ class KMeans:
 
         for index_centroid, points in enumerate(aux):
             # MANERA COMPACTA:
-            self.centroids[:] = np.array([aux.sum(0) / self.index[:] for i in zip(*points)])
+            self.centroids[index_centroid] = np.array([sum(i) / len(points) for i in zip(*points)])
 
         # # Copiem el self.centroids al self.old_centroids tal i com ens diu l'enunciat
         # self.old_centroids = copy.copy(self.centroids[:])
@@ -186,9 +186,9 @@ class KMeans:
                 # AQUEST WHILE ES POT OPTIMITZAR. SI HO INTERPRETÈSSIM COM UNA MATRIU, SERIA SIMÈTRICA I PER TANT, PODRÍEM FER LA METITAT D'OPERACIONS
                 counter = 0
                 while counter < len(aux_row):
-                    dist += math.sqrt(
+                    dist += pow(math.sqrt(
                         pow(pixel[0] - aux_row[counter][0], 2) + pow(pixel[1] - aux_row[counter][1], 2) + pow(
-                            pixel[1] - aux_row[counter][1], 2))
+                            pixel[1] - aux_row[counter][1], 2)),2)
                     counter += 1
             self.wcd[i] = dist / len(aux_row)
             dist = 0
