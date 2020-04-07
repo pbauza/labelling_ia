@@ -171,6 +171,7 @@ class KMeans:
                 aux[index_centroid] = []
             aux[index_centroid].append(self.X[index_pixel])
 
+
         for i, aux_row in enumerate(aux):
             for pixel in aux_row:
                 # AQUEST WHILE ES POT OPTIMITZAR. SI HO INTERPRETÈSSIM COM UNA MATRIU, SERIA SIMÈTRICA I PER TANT, PODRÍEM FER LA MEITAT D'OPERACIONS
@@ -181,7 +182,7 @@ class KMeans:
             wcd[i] = dist/len(aux_row)
             dist = 0
 
-        return np.sum(wcd)
+        return np.sum(wcd)/self.K
 
     def find_bestK(self, max_K):
         """
