@@ -271,14 +271,7 @@ def distance(X, C):
     ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
     ##  AND CHANGE FOR YOUR OWN CODE
     #########################################################
-
-    distaux = []
-    for filaI in X:
-        var = []
-        for filaC in C:
-            var.append(np.linalg.norm(filaI - filaC))
-        distaux.append(var)
-    dist = np.array(distaux)
+    dist = np.sqrt(((X[:, :, None] - C[:, :, None].T) ** 2).sum(1))
     return dist
 
 
