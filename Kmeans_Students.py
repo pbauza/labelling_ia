@@ -22,7 +22,6 @@ class KMeans:
         self._init_options(options)  # DICT options
         self._init_centroids()
         self.index = np.zeros([self.K], int)
-        self._init_wcd()
 
     def _init_X(self, X):
 
@@ -37,9 +36,6 @@ class KMeans:
             X = X.reshape(len(X)*len(X[0]), 3) #numpy(numpy(numpy(float,float,float))) X[19][0][1/2/3]
 
         self.X = X.astype(float)
-
-
-
 
     def _init_options(self, options=None):
         """
@@ -63,7 +59,6 @@ class KMeans:
         # If your methods need any other prameter you can add it to the options dictionary
         self.options = options
 
-
     def _init_centroids(self):
 
         """
@@ -86,10 +81,6 @@ class KMeans:
             self.old_centroids = np.random.rand(self.K, self.X.shape[1])
         #elif self.options['km_init'].lower() == 'custom':
 
-
-    def _init_wcd(self):
-        self.wcd = np.zeros([self.K], float)
-
     def get_labels(self):
 
         """        Calculates the closest centroid of all points in X
@@ -102,7 +93,7 @@ class KMeans:
             min = d.min()
             i, = np.where(d == min)
             self.labels[j] = i[0]
-            #self.index[i[0]] += 1
+            self.index[i[0]] += 1
 
     def get_centroids(self):
         """
@@ -132,8 +123,6 @@ class KMeans:
         #     index[index_centroid] += 1
         # self.centroids = np.transpose(aux.T.sum(1)/(self.index[:]))
 
-
-
     def converges(self):
         """
         Checks if there is a difference between current and old centroids
@@ -155,6 +144,7 @@ class KMeans:
          returns the whithin class distance of the current clustering
         """
         aux = np.empty([self.K], np.object)
+        wcd = np.zeros([self.K], float)
         dist = 0
 
         '''
@@ -183,15 +173,15 @@ class KMeans:
 
         for i, aux_row in enumerate(aux):
             for pixel in aux_row:
-                # AQUEST WHILE ES POT OPTIMITZAR. SI HO INTERPRETÈSSIM COM UNA MATRIU, SERIA SIMÈTRICA I PER TANT, PODRÍEM FER LA METITAT D'OPERACIONS
+                # AQUEST WHILE ES POT OPTIMITZAR. SI HO INTERPRETÈSSIM COM UNA MATRIU, SERIA SIMÈTRICA I PER TANT, PODRÍEM FER LA MEITAT D'OPERACIONS
                 counter = 0
                 while counter < len(aux_row):
-                    dist += pow(math.sqrt(
-                        pow(pixel[0] - aux_row[counter][0], 2) + pow(pixel[1] - aux_row[counter][1], 2) + pow(
-                            pixel[1] - aux_row[counter][1], 2)),2)
+                    dist += math.sqrt(pow(pixel[0] - aux_row[counter][0], 2) + pow(pixel[1] - aux_row[counter][1], 2) + pow(pixel[2] - aux_row[counter][2], 2))
                     counter += 1
-            self.wcd[i] = dist / len(aux_row)
+            wcd[i] = dist/len(aux_row)
             dist = 0
+
+        return np.sum(wcd)
 
     def find_bestK(self, max_K):
         """
@@ -199,22 +189,20 @@ class KMeans:
         """
         self.K = 2
         self._init_centroids()
-        self._init_wcd()
 
         self.fit()
-        self.withinClassDistance()
-        aux = np.sum(self.wcd)
+        aux = self.withinClassDistance()
         self.K += 1
         flag = False
 
         while (self.K <= max_K) and (flag != True):
             self._init_centroids()
             self.fit()
-            self._init_wcd()
-            self.withinClassDistance()
-            newDec = (np.sum(self.wcd)/aux)*100
+            #wcd = np.zeros([self.K], float)
+            wcd = self.withinClassDistance()
+            newDec = (wcd/aux)*100
             print(newDec)
-            if(newDec < 20):
+            if((100-newDec) < 20):
                 flag = True
             else:
                 self.K += 1
