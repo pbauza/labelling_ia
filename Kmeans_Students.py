@@ -22,12 +22,8 @@ class KMeans:
         self._init_centroids()
         self.wcd = 0
 
-    #############################################################
-    ##  THIS FUNCTION CAN BE MODIFIED FROM THIS POINT, if needed
-    #############################################################
-
-
     def _init_X(self, X):
+
         """Initialization of all pixels, sets X as an array of data in vector form (PxD)
             Args:
                 X (list or np.array): list(matrix) of all pixel values
@@ -65,44 +61,14 @@ class KMeans:
         # If your methods need any other prameter you can add it to the options dictionary
         self.options = options
 
-        #############################################################
-        ##  THIS FUNCTION CAN BE MODIFIED FROM THIS POINT, if needed
-        #############################################################
-
 
     def _init_centroids(self):
+
         """
         Initialization of centroids
         """
-
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
-        '''        
-        self.centroids = np.empty([self.K, 3], float)
-        self.old_centroids = np.empty([self.K, 3], float)
-        index_pixel = 1
-        found = False
-        if self.options['km_init'].lower() == 'first':
-            self.centroids[0] = self.X[0]
-            for pixel in self.X[1:]:
-                found = False
-                index_centroids = 0
-                while index_centroids < index_pixel and found is False:
-                    if (pixel == self.centroids[index_centroids]).all():
-                        found = True
-                    index_centroids += 1;
-                if found is False:
-                    self.centroids[index_pixel] = pixel
-                    self.old_centroids[index_pixel] = pixel
-                    index_pixel += 1
-                    if index_pixel == self.K:
-                        break
-        '''
-
         self.centroids = np.zeros([self.K, 3], float)
-        self.centroids = np.zeros([self.K, 3], float)
+        self.old_centroids = np.zeros([self.K, 3], float)
         aux = np.zeros([self.K, 3], float)
         index_pixel = 0
         if self.options['km_init'].lower() == 'first':
@@ -123,15 +89,10 @@ class KMeans:
 
 
     def get_labels(self):
+
         """        Calculates the closest centroid of all points in X
         and assigns each point to the closest centroid
         """
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
-        #self.labels = np.random.randint(self.K, size=self.X.shape[0])
-
         self.labels = np.empty(len(self.X), int)
         distances = distance(self.X, self.centroids)
 
@@ -154,55 +115,13 @@ class KMeans:
                 aux[index_centroid] = []
             aux[index_centroid].append(self.X[index_pixel])
 
-        for element in aux:
-            print(element)
-
         for index_centroid, points in enumerate(aux):
-            # MANERA COMPACTA:
             self.centroids[index_centroid] = np.array([sum(i)/len(points) for i in zip(*points)])
-            # MANERA NO COMPACTA:
-            # sumx = 0
-            # sumy = 0
-            # sumz = 0
-            # for pixel in points:
-            #     long = len(points)
-            #     sumx += pixel[0]
-            #     sumy += pixel[1]
-            #     sumz += pixel[2]
-            # self.centroids[index_centroid] = (sumx / long, sumy / long, sumz / long)
 
-
-    '''
-        aux = np.empty(self.K, float)
-        aux_centroid = np.empty(2, float)
-
-        # Classifiquem els pixels segons el centroid al qual estiguin associats (contingut del self.labels)
-        for element, pixel in zip(self.labels, self.X):
-            if aux[element] is None:
-                aux[element] = []
-                aux[element] = pixel
-            else:
-                aux[element] = np.append(aux[element], pixel)
-
-        # Calculem el nou centroid per a cadascun dels groups
-        for group, index in enumerate(aux):
-            length = group.shape[0]
-            sum_x = np.sum(group[:, 0])
-            sum_y = np.sum(group[:, 1])
-            sum_z = np-sum(group[:, 2])
-            self.centroids[index] = copy.deepcopy(np.array(np.array((sum_x/length), (sum_y/length), (sum_z/length)))
-
-        #LINK algorisme: https://stackoverflow.com/questions/23020659/fastest-way-to-calculate-the-centroid-of-a-set-of-coordinate-tuples-in-python-wi#23021198
-    '''
     def converges(self):
-
         """
         Checks if there is a difference between current and old centroids
         """
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
         value = np.mean(self.centroids - self.old_centroids)
         if value == 0:
             res = True
