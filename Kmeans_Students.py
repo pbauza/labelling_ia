@@ -135,17 +135,18 @@ class KMeans:
         Runs K-Means algorithm until it converges or until the number
         of iterations is smaller than the maximum number of iterations.
         """
-        iter = 0
+        """iter = 0
         if self.num_iter != 0:
             max_iter = self.num_iter
         else:
-            max_iter = 9999
+            max_iter = 9999"""
 
-        while (self.converges() != True and iter != max_iter):
+        #while (self.converges() != True and iter != max_iter):
+        while (self.converges() != True and self.num_iter != self.options['max_iter']):
             self.get_labels()
             self.get_centroids()
             self.num_iter = self.num_iter + 1
-            iter += 1
+            #iter += 1
 
     def withinClassDistance(self):
         """
