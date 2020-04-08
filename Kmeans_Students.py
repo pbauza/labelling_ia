@@ -135,10 +135,17 @@ class KMeans:
         Runs K-Means algorithm until it converges or until the number
         of iterations is smaller than the maximum number of iterations.
         """
-        while (self.converges() != True):
+        iter = 0
+        if self.num_iter != 0:
+            max_iter = self.num_iter
+        else:
+            max_iter = 9999
+
+        while (self.converges() != True and iter != max_iter):
             self.get_labels()
             self.get_centroids()
             self.num_iter = self.num_iter + 1
+            iter += 1
 
     def withinClassDistance(self):
         """
@@ -147,49 +154,43 @@ class KMeans:
         aux = np.empty([self.K], np.object)
         wcd = np.zeros([self.K], float)
         dist = 0
-        dist1 = 0
-
-        '''
-        for index_pixel, index_centroid in enumerate(self.labels):
-            if aux[index_centroid] is None:
-                aux[index_centroid] = []
-            aux[index_centroid].append(self.X[index_pixel])
-
-
-        for i, cx in enumerate(aux):
-            x = np.zeros([1, 3], float)
-            x[0] = cx[i]
-            dist_array = distance(x, np.array(cx))
-            #for y in cx:
-            #for y in dist_array:
-                #dist += math.sqrt(pow(x[0]-y[0], 2) + pow(x[1]-y[1], 2) + pow(x[2]-y[2], 2))
-                #dist += y
-            dist = np.sum(dist_array)
-            self.wcd[i] = dist/len(cx)
-        '''
+        #dist1 = 0
 
         for index_pixel, index_centroid in enumerate(self.labels):
             if aux[index_centroid] is None:
                 aux[index_centroid] = []
             aux[index_centroid].append(self.X[index_pixel])
 
-        for z, aux_row in enumerate(aux):
-            for j, pixel in enumerate(aux_row):
-                # AQUEST WHILE ES POT OPTIMITZAR. SI HO INTERPRETÈSSIM COM UNA MATRIU, SERIA SIMÈTRICA I PER TANT, PODRÍEM FER LA MEITAT D'OPERACIONS
-                i = j+1
-                m = len(aux_row)
-                while i < m:
-                    dist += math.sqrt(pow(pixel[0] - aux_row[i][0], 2) + pow(pixel[1] - aux_row[i][1], 2) + pow(pixel[2] - aux_row[i][2], 2))
-                    i += 1
-                dist1 += (2 * dist) / (m * (m - 1))
 
-            wcd[z] = dist1
+        for i, aux_row in enumerate(aux):
+            counter = 0
+            while counter < len(aux_row):
+                dist += np.sum((aux_row[counter]-aux_row[:])**2)
+                counter += 1
 
-            #wcd[z] += (2*dist)/(len(aux_row)*(len(aux_row)-1))
-            dist = 0
-            dist1 = 0
+        return dist/len(self.X)
 
-        return np.sum(wcd)
+        # for index_pixel, index_centroid in enumerate(self.labels):
+        #     if aux[index_centroid] is None:
+        #         aux[index_centroid] = []
+        #     aux[index_centroid].append(self.X[index_pixel])
+        #
+        # for z, aux_row in enumerate(aux):
+        #     for j, pixel in enumerate(aux_row):
+        #         # AQUEST WHILE ES POT OPTIMITZAR. SI HO INTERPRETÈSSIM COM UNA MATRIU, SERIA SIMÈTRICA I PER TANT, PODRÍEM FER LA MEITAT D'OPERACIONS
+        #         i = j+1
+        #         m = len(aux_row)
+        #         while i < m:
+        #             dist += math.sqrt(pow(pixel[0] - aux_row[i][0], 2) + pow(pixel[1] - aux_row[i][1], 2) + pow(pixel[2] - aux_row[i][2], 2))
+        #             i += 1
+        #         dist1 += (2 * dist) / (m * (m - 1))
+        #
+        #     wcd[z] = dist1
+        #
+        #     #wcd[z] += (2*dist)/(len(aux_row)*(len(aux_row)-1))
+        #     dist = 0
+        #     dist1 = 0
+
 
     def find_bestK(self, max_K):
         """
@@ -197,23 +198,25 @@ class KMeans:
         """
         self.K = 2
         self._init_centroids()
-
         self.fit()
         aux = self.withinClassDistance()
+        print('1. ', aux)
         self.K += 1
         flag = False
-
-        while (self.K <= max_K) and (flag is not True):
+        while (self.K <= max_K) and (flag is False):
             self._init_centroids()
             self.fit()
-            wcd = self.withinClassDistance()
-            newDec = (wcd/aux)*100
-            print(newDec)
-            if((100-newDec) < 20):
+            w = self.withinClassDistance()
+            print('self', self.K)
+            print('2. ', w)
+            newDec = 100 - (w / aux) * 100
+            print('newDEc', newDec)
+            if (newDec < 20):
+                self.K -= 1
                 flag = True
             else:
                 self.K += 1
-                aux = newDec
+                aux = w
 
 
 def distance(X, C):
