@@ -93,7 +93,7 @@ class KMeans:
             min = d.min()
             i, = np.where(d == min)
             self.labels[j] = i[0]
-            self.index[i[0]] += 1
+            #self.index[i[0]] += 1
 
     def get_centroids(self):
         """
@@ -147,6 +147,7 @@ class KMeans:
         aux = np.empty([self.K], np.object)
         wcd = np.zeros([self.K], float)
         dist = 0
+        dist1 = 0
 
         '''
         for index_pixel, index_centroid in enumerate(self.labels):
@@ -172,19 +173,22 @@ class KMeans:
                 aux[index_centroid] = []
             aux[index_centroid].append(self.X[index_pixel])
 
-
-        for i, aux_row in enumerate(aux):
-            for pixel in aux_row:
+        for z, aux_row in enumerate(aux):
+            for j, pixel in enumerate(aux_row):
                 # AQUEST WHILE ES POT OPTIMITZAR. SI HO INTERPRETÈSSIM COM UNA MATRIU, SERIA SIMÈTRICA I PER TANT, PODRÍEM FER LA MEITAT D'OPERACIONS
-                counter = 0
-                while counter < len(aux_row):
-                    dist += math.sqrt(pow(pixel[0] - aux_row[counter][0], 2) + pow(pixel[1] - aux_row[
-                        counter][1], 2) + pow(pixel[2] - aux_row[counter][2], 2))
-                    counter += 1
-            wcd[i] = dist/len(aux_row)
-            dist = 0
+                i = j+1
+                m = len(aux_row)
+                while i < m:
+                    dist += math.sqrt(pow(pixel[0] - aux_row[i][0], 2) + pow(pixel[1] - aux_row[i][1], 2) + pow(pixel[2] - aux_row[i][2], 2))
+                    i += 1
+                dist1 += (2 * dist) / (m * (m - 1))
 
-        return np.sum(wcd)/self.K
+            wcd[z] = dist1
+            #wcd[z] += (2*dist)/(len(aux_row)*(len(aux_row)-1))
+            dist = 0
+            dist1 = 0
+
+        return np.sum(wcd)
 
     def find_bestK(self, max_K):
         """
@@ -198,10 +202,9 @@ class KMeans:
         self.K += 1
         flag = False
 
-        while (self.K <= max_K) and (flag != True):
+        while (self.K <= max_K) and (flag is not True):
             self._init_centroids()
             self.fit()
-            #wcd = np.zeros([self.K], float)
             wcd = self.withinClassDistance()
             newDec = (wcd/aux)*100
             print(newDec)
