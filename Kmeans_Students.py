@@ -128,6 +128,7 @@ class KMeans:
         """
         Checks if there is a difference between current and old centroids
         """
+        #return np.allclose(self.centroids, self.old_centroids, atol=self.options['tolerance'])
         return np.equal(self.centroids, self.old_centroids).all()
 
     def fit(self):
