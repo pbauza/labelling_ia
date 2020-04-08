@@ -184,6 +184,7 @@ class KMeans:
                 dist1 += (2 * dist) / (m * (m - 1))
 
             wcd[z] = dist1
+
             #wcd[z] += (2*dist)/(len(aux_row)*(len(aux_row)-1))
             dist = 0
             dist1 = 0
