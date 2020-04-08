@@ -1,4 +1,4 @@
-__authors__ = ['1491858','1493406', '1493962']
+__authors__ = ['1491858', '1493406', '1493962']
 __group__ = 'DL15'
 
 import numpy as np
@@ -33,7 +33,7 @@ class KMeans:
         """
 
         if len(X[0] != 3):
-            X = X.reshape(len(X)*len(X[0]), 3) #numpy(numpy(numpy(float,float,float))) X[19][0][1/2/3]
+            X = X.reshape(len(X)*len(X[0]), 3)
 
         self.X = X.astype(float)
 
@@ -109,19 +109,20 @@ class KMeans:
             aux[index_centroid].append(self.X[index_pixel])
 
         for index_centroid, points in enumerate(aux):
-            # MANERA COMPACTA:
             self.centroids[index_centroid] = np.array([sum(i) / len(points) for i in zip(*points)])
 
-        # # Copiem el self.centroids al self.old_centroids tal i com ens diu l'enunciat
+        # Copiem el self.centroids al self.old_centroids tal i com ens diu l'enunciat
+
         # self.old_centroids = copy.copy(self.centroids[:])
         #
-        # aux = np.zeros([self.K, self.index.max(), 3], float)
+        # aux = np.zeros([self.index.max(), self.K, 3], float)
         # index = np.zeros([self.K], int)
         #
         # for index_pixel, index_centroid in enumerate(self.labels):
-        #     aux[index_centroid][index[index_centroid]] = self.X[index_pixel]
+        #     aux[index[index_centroid]][index_centroid] = self.X[index_pixel]
         #     index[index_centroid] += 1
-        # self.centroids = np.transpose(aux.T.sum(1)/(self.index[:]))
+        #
+        # self.centroids = np.array([i/self.index[ind] for ind, i in enumerate(aux.sum(0)[:])])
 
     def converges(self):
         """
@@ -177,7 +178,8 @@ class KMeans:
                 # AQUEST WHILE ES POT OPTIMITZAR. SI HO INTERPRETÈSSIM COM UNA MATRIU, SERIA SIMÈTRICA I PER TANT, PODRÍEM FER LA MEITAT D'OPERACIONS
                 counter = 0
                 while counter < len(aux_row):
-                    dist += math.sqrt(pow(pixel[0] - aux_row[counter][0], 2) + pow(pixel[1] - aux_row[counter][1], 2) + pow(pixel[2] - aux_row[counter][2], 2))
+                    dist += math.sqrt(pow(pixel[0] - aux_row[counter][0], 2) + pow(pixel[1] - aux_row[
+                        counter][1], 2) + pow(pixel[2] - aux_row[counter][2], 2))
                     counter += 1
             wcd[i] = dist/len(aux_row)
             dist = 0
@@ -221,7 +223,10 @@ def distance(X, C):
         dist: PxK numpy array position ij is the distance between the
         i-th point of the first set an the j-th point of the second set
     """
-    return np.sqrt(((X[:, :, None] - C[:, :, None].T) ** 2).sum(1))
+    #AQUESTA ES ENCARA MES RAPIDA
+    return np.sqrt((X[:, 0, np.newaxis] - C[:, 0]) ** 2 + (X[:, 1, np.newaxis] - C[:, 1]) ** 2 + (
+                X[:, 2, np.newaxis] - C[:, 2]) ** 2)
+    #return np.sqrt(((X[:, :, None] - C[:, :, None].T) ** 2).sum(1))
 
 
 def get_colors(centroids):

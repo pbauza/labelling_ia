@@ -18,7 +18,7 @@ class TestCases(unittest.TestCase):
         self.assertNotEqual(km.__authors__, "TO_BE_FILLED", msg="CHANGE IT TO YOUR NIU!")
         self.assertNotEqual(km.__group__, "TO_BE_FILLED", msg="CHANGE YOUR GROUP NAME!")
 
-    """def test_init_X(self):
+    def test_init_X(self):
         for ix, input in enumerate(self.test_cases['input']):
             km = KMeans(input, self.test_cases['K'][ix])
             np.testing.assert_array_equal(km.X, self.test_cases['shape'][ix])
@@ -58,7 +58,7 @@ class TestCases(unittest.TestCase):
             km._init_centroids()
             old_centroid, centroid, bool_value = self.test_cases['converge'][ix]
             km.old_centroids, km.centroids = old_centroid, centroid
-            self.assertEqual(km.converges(), bool_value)"""
+            self.assertEqual(km.converges(), bool_value)
 
     def test_Kmeans(self):
         for ix, input in enumerate(self.test_cases['input']):
@@ -67,7 +67,7 @@ class TestCases(unittest.TestCase):
             np.testing.assert_array_equal(km.centroids, self.test_cases['kmeans'][ix])
 
 
-    """def test_find_bestK(self):
+    def test_find_bestK(self):
         for ix, input in enumerate(self.test_cases['input']):
             km = KMeans(input, self.test_cases['K'][ix])
             km.find_bestK(10)
@@ -85,7 +85,7 @@ class TestCases(unittest.TestCase):
     def test_get_color(self):
         for ix, centroid in enumerate(self.test_cases['kmeans']):
             color = get_colors(centroid)
-            self.assertCountEqual(color, self.test_cases['color'][ix])"""
+            self.assertCountEqual(color, self.test_cases['color'][ix])
 
 
 if __name__ == "__main__":
