@@ -56,6 +56,7 @@ class KMeans:
                         break
         elif self.options['km_init'].lower() == 'random': #MIRAR QUE NO ES REPETEIXIN ELS CENTROIDS
             self.centroids = np.random.rand(self.K, self.X.shape[1])
+
         #elif self.options['km_init'].lower() == 'custom':
 
     def get_labels(self):
@@ -120,6 +121,7 @@ def distance(X, C):
 
 def get_colors(centroids):
 
+    '''
     color_probs = utils.get_color_prob(centroids)
     labels = np.empty(len(centroids), dtype=object)[:]
     labels[:] = np.nan
@@ -128,3 +130,6 @@ def get_colors(centroids):
         labels[c] = utils.colors[np.argmax(color_probs[c])]
 
     return labels
+    '''
+
+    return np.array([utils.colors[np.argmax(utils.get_color_prob(centroids)[c])] for c in range(len(centroids))])
