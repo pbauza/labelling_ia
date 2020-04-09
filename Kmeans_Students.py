@@ -2,9 +2,7 @@ __authors__ = ['1491858', '1493406', '1493962']
 __group__ = 'DL15'
 
 import numpy as np
-import copy
 import utils
-import math
 
 class KMeans:
 
@@ -27,7 +25,7 @@ class KMeans:
         if options == None:
             options = {}
         if not 'km_init' in options:
-            options['km_init'] = 'first'
+            options['km_init'] = 'random'
         if not 'verbose' in options:
             options['verbose'] = False
         if not 'tolerance' in options:
@@ -55,8 +53,12 @@ class KMeans:
                     if index_pixel == self.K:
                         break
         elif self.options['km_init'].lower() == 'random': #MIRAR QUE NO ES REPETEIXIN ELS CENTROIDS
-            self.centroids = np.random.rand(self.K, self.X.shape[1])
-
+            for pixel in np.random.permutation(self.X):
+                if not any(np.equal(pixel, self.centroids).all(1)):
+                    self.centroids[index_pixel] = pixel
+                    index_pixel += 1
+                    if index_pixel == self.K:
+                        break
         #elif self.options['km_init'].lower() == 'custom':
 
     def get_labels(self):
