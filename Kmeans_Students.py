@@ -121,15 +121,4 @@ def distance(X, C):
 
 def get_colors(centroids):
 
-    '''
-    color_probs = utils.get_color_prob(centroids)
-    labels = np.empty(len(centroids), dtype=object)[:]
-    labels[:] = np.nan
-
-    for c in range(len(centroids)):
-        labels[c] = utils.colors[np.argmax(color_probs[c])]
-
-    return labels
-    '''
-
     return np.array([utils.colors[np.argmax(utils.get_color_prob(centroids)[c])] for c in range(len(centroids))])
