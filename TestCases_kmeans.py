@@ -73,17 +73,6 @@ class TestCases(unittest.TestCase):
             km = KMeans(input, self.test_cases['K'][ix])
             km.find_bestK(10)
             self.assertEqual(km.K, self.test_cases['bestK'][ix])
-            print("Ha passat el test", ix+1)
-
-            '''
-            
-            Test número 1 i la 'K' ideal es 6
-            Test número 2 i la 'K' ideal es 5
-            Test número 3 i la 'K' ideal es 4
-            Test número 4 i la 'K' ideal es 3
-            Test número 5 i la 'K' ideal es 4
-            
-            '''
 
     def test_get_color(self):
         for ix, centroid in enumerate(self.test_cases['kmeans']):
