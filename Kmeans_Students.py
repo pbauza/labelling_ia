@@ -22,10 +22,11 @@ class KMeans:
         self.X = X.astype(float)
 
     def _init_options(self, options=None):
-        if options == None:
+
+        if options is None:
             options = {}
         if not 'km_init' in options:
-            options['km_init'] = 'random'
+            options['km_init'] = 'first'
         if not 'verbose' in options:
             options['verbose'] = False
         if not 'tolerance' in options:
@@ -33,9 +34,8 @@ class KMeans:
         if not 'max_iter' in options:
             options['max_iter'] = np.inf
         if not 'fitting' in options:
-            options['fitting'] = 'WCD'  #within class distance.
+            options['fitting'] = 'WCD'
 
-        # If your methods need any other prameter you can add it to the options dictionary
         self.options = options
 
     def _init_centroids(self):
@@ -52,7 +52,7 @@ class KMeans:
                     index_pixel += 1
                     if index_pixel == self.K:
                         break
-        elif self.options['km_init'].lower() == 'random': #MIRAR QUE NO ES REPETEIXIN ELS CENTROIDS
+        elif self.options['km_init'].lower() == 'random':
             for pixel in np.random.permutation(self.X):
                 if not any(np.equal(pixel, self.centroids).all(1)):
                     self.centroids[index_pixel] = pixel
@@ -69,9 +69,9 @@ class KMeans:
     def get_centroids(self):
 
         self.old_centroids = np.copy(self.centroids[:])
-        for index in range(0, len(self.centroids)):
-            pixels_per_centroids = np.where(self.labels == index)[0]
-            self.centroids[index] = self.X[pixels_per_centroids[:]].sum(0)/len(pixels_per_centroids)
+        self.centroids = [self.X[np.where(self.labels == index)[0][:]].sum(0) for index in range(
+            0, len(self.centroids))] / np.bincount(self.labels).reshape(-1, 1)
+
 
     def converges(self):
 
@@ -112,7 +112,6 @@ class KMeans:
                 aux = w
         self._init_centroids()
         self.fit()
-        aux = self.withinClassDistance()
 
 
 def distance(X, C):
