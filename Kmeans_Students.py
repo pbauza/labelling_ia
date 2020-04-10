@@ -4,6 +4,7 @@ __group__ = 'DL15'
 import numpy as np
 import utils
 
+
 class KMeans:
 
     def __init__(self, X, K=1, options=None):
@@ -12,7 +13,6 @@ class KMeans:
         self.K = K
         self._init_X(X)
         self._init_options(options)  # DICT options
-        self._init_centroids()
 
     def _init_X(self, X):
 
@@ -68,8 +68,8 @@ class KMeans:
 
     def get_centroids(self):
 
-        self.old_centroids = np.copy(self.centroids[:])
-        self.centroids = [self.X[np.where(self.labels == index)[0][:]].sum(0) for index in range(
+        self.old_centroids = np.array(self.centroids, copy=True)
+        self.centroids = [self.X[self.labels == index].sum(0) for index in range(
             0, len(self.centroids))] / np.bincount(self.labels).reshape(-1, 1)
 
 
@@ -78,7 +78,7 @@ class KMeans:
         return np.allclose(self.centroids, self.old_centroids, atol=self.options['tolerance'])
 
     def fit(self):
-
+        self._init_centroids()
         while self.converges() is False and self.num_iter != self.options['max_iter']:
             self.get_labels()
             self.get_centroids()
@@ -95,13 +95,11 @@ class KMeans:
     def find_bestK(self, max_K):
 
         self.K = 2
-        self._init_centroids()
         self.fit()
         aux = self.withinClassDistance()
         self.K += 1
         flag = False
         while (self.K <= max_K) and (flag is False):
-            self._init_centroids()
             self.fit()
             w = self.withinClassDistance()
             if 100 - (w / aux) * 100 < 20:
@@ -110,7 +108,6 @@ class KMeans:
             else:
                 self.K += 1
                 aux = w
-        self._init_centroids()
         self.fit()
 
 
@@ -122,4 +119,4 @@ def distance(X, C):
 
 def get_colors(centroids):
 
-    return np.array([utils.colors[np.argmax(utils.get_color_prob(centroids)[c])] for c in range(len(centroids))])
+    return [utils.colors[np.argmax(utils.get_color_prob(centroids)[c])] for c in range(len(centroids))]
