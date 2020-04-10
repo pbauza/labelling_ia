@@ -108,6 +108,8 @@ class KMeans:
             else:
                 self.K += 1
                 aux = w
+        if flag is False:
+            self.K = max_K
         self.fit()
 
 
