@@ -102,7 +102,8 @@ class KMeans:
         while (self.K <= max_K) and (flag is False):
             self.fit()
             w = self.withinClassDistance()
-            if 100 - (w / aux) * 100 < 20:
+            percent = (w / aux) * 100
+            if 100 - percent < 20:
                 self.K -= 1
                 flag = True
             else:
