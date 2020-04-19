@@ -1,5 +1,5 @@
 __authors__ = ['1491858', '1493406', '1493962']
-__group__ = 'DL15'
+__group__ = 'DL.15'
 
 import numpy as np
 import utils
