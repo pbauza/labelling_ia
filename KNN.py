@@ -1,5 +1,5 @@
 __authors__ = ['1491858', '1493406', '1493962']
-__group__ = 'DL15'
+__group__ = 'DL.15'
 
 import numpy as np
 import math
@@ -23,6 +23,7 @@ class KNN:
         :return: assigns the train set to the matrix self.train_data shaped as PxD (P points in a D dimensional space)
         """
 
+        #self.train_data es una matriu de P (número d'imatges) x 4800
         self.train_data = train_data.reshape(len(train_data), len(train_data[0]) * len(train_data[0][1])).astype(float)
 
 
@@ -38,7 +39,7 @@ class KNN:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
-        self.neighbors = np.random.randint(k, size=[test_data.shape[0],k])
+        self.neighbours = np.random.randint(k, size=[test_data.shape[0],k])
 
 
     def get_class(self):
@@ -53,7 +54,26 @@ class KNN:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
-        return np.random.randint(10, size=self.neighbors.size), np.random.random(self.neighbors.size)
+        #return np.random.randint(10, size=self.neighbors.size), np.random.random(self.neighbors.size)
+
+        mostVotedValues = np.empty((len(self.train_data),1), dtype="<U8")
+        #mostVotedValues = np.nan
+        percent = np.empty([len(self.train_data), 1])
+        #percent = np.nan
+
+        #bàsicament he de recorrer el neighbours, agafar el primer element i anar-lo posant a la casella corresponent
+        print(self.neighbours)
+        '''for i, element in enumerate(self.neighbours):
+            aux = np.zeros([len(element), 1], dtype=np.int8)
+            for number in element:
+                aux[number] = aux[number] + 1
+            temp = max(aux)
+            index = [i for i, j in enumerate(aux) if j == temp]
+            mostVotedValues[i] = self.labels[index][0]
+            percent[i] = (max(aux))/sum(aux)
+        '''
+
+        return mostVotedValues, percent
 
 
     def predict(self, test_data, k):
@@ -61,8 +81,15 @@ class KNN:
         predicts the class at which each element in test_data belongs to
         :param test_data: array that has to be shaped to a NxD matrix ( N points in a D dimensional space)
         :param k:         :param k:  the number of neighbors to look at
-        :return: the output form get_class (2 Nx1 vector, 1st the classm 2nd the  % of votes it got
+
+        !!!!! :return: the output form get_class (2 Nx1 vector, 1st the classm 2nd the  % of votes it got !!! --> Diu que retorna dos arrays, pero al fitxer de test ho té
+        com si únicament li retornessin un paràmetre (no sé si ho he de retornar com un zip o un únic array o klk.
         """
 
+        #return np.random.randint(10, size=self.neighbors.size), np.random.random(self.neighbors.size)
 
-        return np.random.randint(10, size=self.neighbors.size), np.random.random(self.neighbors.size)
+        self.get_k_neighbours(self, test_data, k)
+        mostVotedValues, percentages = self.get_class()
+
+        return mostVotedValues, percentages
+
