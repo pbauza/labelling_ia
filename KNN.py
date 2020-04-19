@@ -56,24 +56,24 @@ class KNN:
         #######################################################
         #return np.random.randint(10, size=self.neighbors.size), np.random.random(self.neighbors.size)
 
-        mostVotedValues = np.empty((len(self.train_data),1), dtype="<U8")
-        #mostVotedValues = np.nan
+        mostVotedValues = np.array([], )
         percent = np.empty([len(self.train_data), 1])
         #percent = np.nan
 
         #bàsicament he de recorrer el neighbours, agafar el primer element i anar-lo posant a la casella corresponent
-        print(self.neighbours)
-        '''for i, element in enumerate(self.neighbours):
+        for i, element in enumerate(self.neighbours):
             aux = np.zeros([len(element), 1], dtype=np.int8)
             for number in element:
                 aux[number] = aux[number] + 1
             temp = max(aux)
             index = [i for i, j in enumerate(aux) if j == temp]
-            mostVotedValues[i] = self.labels[index][0]
+            mostVotedValues = np.append(mostVotedValues, self.labels[index][0])
             percent[i] = (max(aux))/sum(aux)
-        '''
 
-        return mostVotedValues, percent
+            print(mostVotedValues)
+
+
+        return mostVotedValues #, percent
 
 
     def predict(self, test_data, k):
