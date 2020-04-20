@@ -58,20 +58,13 @@ class KNN:
 
         mostVotedValues = np.array([], )
         percent = np.empty([len(self.train_data), 1])
-        #percent = np.nan
 
         #bàsicament he de recorrer el neighbours, agafar el primer element i anar-lo posant a la casella corresponent
         for i, element in enumerate(self.neighbours):
-            aux = np.zeros([len(element), 1], dtype=np.int8)
-            for number in element:
-                aux[number] = aux[number] + 1
-            temp = max(aux)
-            index = [i for i, j in enumerate(aux) if j == temp]
-            mostVotedValues = np.append(mostVotedValues, self.labels[index][0])
-            percent[i] = (max(aux))/sum(aux)
-
-            print(mostVotedValues)
-
+            labels, number = np.unique(element, return_counts=True)
+            most = number.index(max(number))
+            mostVotedValues.append(mostVotedValues, labels[most])
+            percent[i] = max(number)/sum(number)*100
 
         return mostVotedValues #, percent
 
