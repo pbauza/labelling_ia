@@ -5,6 +5,7 @@ import numpy as np
 import math
 import operator
 from scipy.spatial.distance import cdist
+from scipy.stats import mode
 
 class KNN:
     def __init__(self, train_data, labels):
@@ -35,11 +36,10 @@ class KNN:
         :return: the matrix self.neighbors is created (NxK)
                  the ij-th entry is the j-th nearest train point to the i-th test point
         """
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
-        self.neighbours = np.random.randint(k, size=[test_data.shape[0],k])
+        # test_data = test_data.reshape(len(test_data), len(test_data[0]) * len(test_data[0][1])).astype(float)
+        # self.neighbors = self.labels[np.argsort(cdist(test_data, self.train_data))[:, :k][:]]
+        self.neighbors = self.labels[np.argsort(cdist(test_data.reshape(len(test_data), len(test_data[0]) * len(
+            test_data[0][1])).astype(float), self.train_data))[:, :k][:]]
 
 
     def get_class(self):
@@ -55,18 +55,29 @@ class KNN:
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
         #return np.random.randint(10, size=self.neighbors.size), np.random.random(self.neighbors.size)
+        # mostVotedValues = []
+        # for i in range(len(self.neighbors)):
+        #     labels, number = np.unique(self.neighbors[i], return_counts=True)
+        #     mostVotedValues.append(mostVotedValues, labels[np.argmax(labels)])
+        # unique, pos = np.unique(self.neighbors[:], return_inverse=True, axis=0)
+        # counts = np.bincount(pos)
+        # mostVotedValues = unique[counts.argmax()]
+        #mostVotedValues = np.bincount(self.neighbors[:][0]).argmax()
+        #mostVotedValues, count = mode(self.neighbors, axis=1)
+        #index = np.array(count).where(1)
+        #mostVotedValues[index] = self.neighbors[index][0]
 
         mostVotedValues = np.array([], )
         percent = np.empty([len(self.train_data), 1])
 
         #bàsicament he de recorrer el neighbours, agafar el primer element i anar-lo posant a la casella corresponent
-        for i, element in enumerate(self.neighbours):
+        for i, element in enumerate(self.neighbors):
             labels, number = np.unique(element, return_counts=True)
             most = number.index(max(number))
             mostVotedValues.append(mostVotedValues, labels[most])
             percent[i] = max(number)/sum(number)*100
 
-        return mostVotedValues #, percent
+        return mostVotedValues #,percent
 
 
     def predict(self, test_data, k):
@@ -81,8 +92,9 @@ class KNN:
 
         #return np.random.randint(10, size=self.neighbors.size), np.random.random(self.neighbors.size)
 
-        self.get_k_neighbours(self, test_data, k)
+        self.get_k_neighbors(self, test_data, k)
         mostVotedValues, percentages = self.get_class()
+
 
         return mostVotedValues, percentages
 
