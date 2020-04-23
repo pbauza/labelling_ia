@@ -67,17 +67,32 @@ class KNN:
         #index = np.array(count).where(1)
         #mostVotedValues[index] = self.neighbors[index][0]
 
-        mostVotedValues = np.array([], )
+
+        mostVotedValues = np.array([], dtype='<U8')
+        #clothes = np.array([], dtype='<U8')
         percent = np.empty([len(self.train_data), 1])
+        aux_dict = dict()
+        clothes = []
 
         #bàsicament he de recorrer el neighbours, agafar el primer element i anar-lo posant a la casella corresponent
         for i, element in enumerate(self.neighbors):
-            labels, number = np.unique(element, return_counts=True)
-            most = number.index(max(number))
-            mostVotedValues.append(mostVotedValues, labels[most])
-            percent[i] = max(number)/sum(number)*100
+            for label in element:
+                if label not in aux_dict.keys():
+                    aux_dict[label] = 0
+                aux_dict[label] += 1
 
-        return mostVotedValues #,percent
+            highest = max(aux_dict.values())
+
+            [clothes.append(el) for el in aux_dict.keys() if aux_dict[el] == highest]
+
+            mostVotedValues = np.append(mostVotedValues, clothes[0])
+            percent[i] = highest/sum(aux_dict.values())
+            clothes = []
+            aux_dict = dict()
+
+        # RESULT: y: array(['Handbags', 'Dresses', 'Jeans', 'Dresses', 'Heels', 'Heels', 'Dresses', 'Shorts', 'Dresses', 'Heels'], dtype='<U8')
+
+        return mostVotedValues#, percent
 
 
     def predict(self, test_data, k):
@@ -92,9 +107,8 @@ class KNN:
 
         #return np.random.randint(10, size=self.neighbors.size), np.random.random(self.neighbors.size)
 
-        self.get_k_neighbors(self, test_data, k)
-        mostVotedValues, percentages = self.get_class()
+        self.get_k_neighbours(test_data, k)
+        mostVotedValues = self.get_class()
 
-
-        return mostVotedValues, percentages
+        return mostVotedValues
 
