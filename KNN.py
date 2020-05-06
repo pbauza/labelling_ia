@@ -54,19 +54,6 @@ class KNN:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
-        #return np.random.randint(10, size=self.neighbors.size), np.random.random(self.neighbors.size)
-        # mostVotedValues = []
-        # for i in range(len(self.neighbors)):
-        #     labels, number = np.unique(self.neighbors[i], return_counts=True)
-        #     mostVotedValues.append(mostVotedValues, labels[np.argmax(labels)])
-        # unique, pos = np.unique(self.neighbors[:], return_inverse=True, axis=0)
-        # counts = np.bincount(pos)
-        # mostVotedValues = unique[counts.argmax()]
-        #mostVotedValues = np.bincount(self.neighbors[:][0]).argmax()
-        #mostVotedValues, count = mode(self.neighbors, axis=1)
-        #index = np.array(count).where(1)
-        #mostVotedValues[index] = self.neighbors[index][0]
-
 
         mostVotedValues = np.array([], dtype='<U8')
         #clothes = np.array([], dtype='<U8')
