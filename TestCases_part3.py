@@ -49,10 +49,13 @@ class TestCases(unittest.TestCase):
         pass
 
     def test_kmean_statistics(self):
-        imatges = list()
+        #imatges = list()
+        values = list()
         for ix, input in enumerate(self.test_cases['input']):
             km = KMeans(input, self.test_cases['K'][ix])
-            ml.Kmean_statistics(km, 6)
+            #values.append(ml.Kmean_statistics(km, 6))
+            ml.Kmean_statistics(km, 3)
+        #print(values)
         pass
 
 

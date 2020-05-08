@@ -133,23 +133,36 @@ class KMeans:
             self.K = max_K
         self.fit()
 
-    def find_bestKImprovement(self, max_K, value):
+    def find_bestKImprovement(self, max_K, value, type):
 
         self.K = 2
         self.fit()
-        aux = self.withinClassDistance()
+        if type == 'Inter':
+            auxInter = self.interClassDistance()
+        else:
+            auxIntra = self.withinClassDistance()
+
         self.K += 1
         flag = False
         while (self.K <= max_K) and (flag is False):
             self.fit()
-            w = self.withinClassDistance()
-            percent = (w / aux) * 100
+            if type == 'Inter':
+                wInter = self.interClassDistance()
+                percent = (wInter/ auxInter) * 100
+            else:
+                wIntra = self.withinClassDistance()
+                percent = (wIntra / auxIntra) * 100
+            #w = self.withinClassDistance()
+            #percent = (w / aux) * 100
             if 100 - percent < value:
                 self.K -= 1
                 flag = True
             else:
                 self.K += 1
-                aux = w
+                if type == 'Inter':
+                    auxInter = wInter
+                else:
+                    auxIntra = wIntra
         if flag is False:
             self.K = max_K
         self.fit()

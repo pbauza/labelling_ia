@@ -95,4 +95,5 @@ def Kmean_statistics(kmeans, kmax):
         kmeans.find_bestK(i)
         shape = kmeans.X.shape
         visualize_k_means(kmeans, shape)
+        #return kmeans.num_iter
 
