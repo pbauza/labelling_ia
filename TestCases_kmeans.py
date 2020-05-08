@@ -76,6 +76,12 @@ class TestCases(unittest.TestCase):
             km.find_bestK(10)
             self.assertEqual(km.K, self.test_cases['bestK'][ix])
 
+    def test_find_bestK_improvement(self):
+        for ix, input in enumerate(self.test_cases['input']):
+            km = KMeans(input, self.test_cases['K'][ix])
+            km.find_bestKImprovement(10, 20)
+            self.assertEqual(km.K, self.test_cases['bestK'][ix])
+
     def test_get_color(self):
         for ix, centroid in enumerate(self.test_cases['kmeans']):
             color = get_colors(centroid)

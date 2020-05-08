@@ -4,7 +4,7 @@ __group__ = 'DL.15'
 import numpy as np
 import Kmeans_Students
 import KNN
-from utils_data import read_dataset, visualize_k_means, visualize_retrieval
+from utils_data import read_dataset, visualize_k_means, visualize_retrieval, Plot3DCloud
 import matplotlib.pyplot as plt
 #import cv2
 from operator import  itemgetter
@@ -89,4 +89,14 @@ def Retrieval_by_shape(images, labels, shapes):
 
     visualize_retrieval(return_list, 2) #no sabem per que no funciona si esta igual que laltre
     return return_list
+
+def Kmean_statistics(kmeans, kmax):
+    for i in range(2, kmax):
+        kmeans.find_bestK(i)
+        shape = kmeans.X.shape
+        #Plot3DCloud(kmeans)
+        #plt.title('núvol de punts')
+        #plt.show()
+        visualize_k_means(kmeans, shape)
+        pass
 

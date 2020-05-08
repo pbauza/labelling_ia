@@ -133,6 +133,26 @@ class KMeans:
             self.K = max_K
         self.fit()
 
+    def find_bestKImprovement(self, max_K, value):
+
+        self.K = 2
+        self.fit()
+        aux = self.withinClassDistance()
+        self.K += 1
+        flag = False
+        while (self.K <= max_K) and (flag is False):
+            self.fit()
+            w = self.withinClassDistance()
+            percent = (w / aux) * 100
+            if 100 - percent < value:
+                self.K -= 1
+                flag = True
+            else:
+                self.K += 1
+                aux = w
+        if flag is False:
+            self.K = max_K
+        self.fit()
 
 def distance(X, C):
 
