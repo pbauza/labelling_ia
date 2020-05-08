@@ -138,30 +138,27 @@ class KMeans:
         self.K = 2
         self.fit()
         if type == 'Inter':
-            auxInter = self.interClassDistance()
+            aux = self.interClassDistance()
         else:
-            auxIntra = self.withinClassDistance()
+            aux = self.withinClassDistance()
 
         self.K += 1
         flag = False
         while (self.K <= max_K) and (flag is False):
             self.fit()
             if type == 'Inter':
-                wInter = self.interClassDistance()
-                percent = (auxInter/ wInter) * 100
+                w = self.interClassDistance()
+                percent = (aux/ w) * 100
             else:
-                wIntra = self.withinClassDistance()
-                percent = (wIntra / auxIntra) * 100
+                w = self.withinClassDistance()
+                percent = (w / aux) * 100
 
             if 100 - percent < value:
                 self.K -= 1
                 flag = True
             else:
                 self.K += 1
-                if type == 'Inter':
-                    auxInter = wInter
-                else:
-                    auxIntra = wIntra
+                aux = w
         if flag is False:
             self.K = max_K
         self.fit()
