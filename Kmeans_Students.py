@@ -148,12 +148,11 @@ class KMeans:
             self.fit()
             if type == 'Inter':
                 wInter = self.interClassDistance()
-                percent = (wInter/ auxInter) * 100
+                percent = (auxInter/ wInter) * 100
             else:
                 wIntra = self.withinClassDistance()
                 percent = (wIntra / auxIntra) * 100
-            #w = self.withinClassDistance()
-            #percent = (w / aux) * 100
+
             if 100 - percent < value:
                 self.K -= 1
                 flag = True
