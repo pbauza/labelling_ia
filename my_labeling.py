@@ -94,9 +94,5 @@ def Kmean_statistics(kmeans, kmax):
     for i in range(2, kmax):
         kmeans.find_bestK(i)
         shape = kmeans.X.shape
-        #Plot3DCloud(kmeans)
-        #plt.title('núvol de punts')
-        #plt.show()
         visualize_k_means(kmeans, shape)
-        pass
 

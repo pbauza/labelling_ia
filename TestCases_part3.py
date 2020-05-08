@@ -20,7 +20,7 @@ class TestCases(unittest.TestCase):
             self.test_cases = pickle.load(f)
             pass
 
-    """def test_retrieval_by_color(self):
+    def test_retrieval_by_color(self):
         imatges = list()
         labels = list()
         colors = list()
@@ -34,9 +34,9 @@ class TestCases(unittest.TestCase):
         colors.append("White")
         colors.append("Red")
         out = ml.Retrieval_by_color(imatges, labels, colors)
-        pass"""
+        pass
 
-    """def test_retrieval_by_shape(self):
+    def test_retrieval_by_shape(self):
         imatges = list()
         labels = list()
         shapes = list()
@@ -46,13 +46,12 @@ class TestCases(unittest.TestCase):
             imatges.append(knn.train_data)
         shapes.append(utils.shapes[random.randrange(0, 8)])
         out = ml.Retrieval_by_shape(imatges, labels, shapes)
-        pass"""
+        pass
 
     def test_kmean_statistics(self):
         imatges = list()
         for ix, input in enumerate(self.test_cases['input']):
             km = KMeans(input, self.test_cases['K'][ix])
-            #km = KMeans(imatges,2)
             ml.Kmean_statistics(km, 6)
         pass
 
