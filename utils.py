@@ -8,7 +8,6 @@ def Sigmoid(s,t,b):
 
     return y
 
-
 def TripleSigmoid_E(s,tx,ty,alfa_x,alfa_y,bx,by,be,ex,ey,angle_e):
 
     sT = np.double(s.T) - np.hstack([tx, ty])
@@ -152,6 +151,8 @@ def get_color_prob(ima, positions=None, patchSize=1):
     return CD
 
 colors=np.array(['Red','Orange','Brown','Yellow','Green','Blue','Purple','Pink','Black','Grey','White'])
+
+shapes=np.array(['Shorts', 'Dresses', 'Jeans', 'Shorts', 'Socks', 'Heels', 'Sandals', 'Handbags'])
 
 parameters = np.array([[[  4.24199636e-01,   2.29563220e-01,  -1.17335858e-01,  -4.43169080e-01,   0.00000000e+00,   0.00000000e+00],\
                      [  2.49359126e-01,   6.63190063e-01,   5.18007668e-01,   1.07591884e+00,   0.00000000e+00,   0.00000000e+00],\
