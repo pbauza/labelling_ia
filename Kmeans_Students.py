@@ -98,6 +98,20 @@ class KMeans:
             dist += np.sum((self.X[pixels_per_centroids[:]]-self.centroids[i])**2)
         return dist/len(self.X)
 
+    def interClassDistance(self):
+
+        dist = 0
+        for i in range(0, len(self.centroids)):
+            pixels_per_centroids = np.where(self.labels == i)[0]
+            # AGAFEM TOTS ELS CENTROIDES DIFERENTS AL CENTROIDE DE LA CLASSE RESPECTE A LA QUE MESUREM DISTANCIES
+            m = self.centroids[np.where(np.array(range(0, len(self.centroids))) != i)]
+            #PER CADA CENTROIDE QUE DIFERENT, CALCULEM LA DISTANCIA A CADA PIXEL DE LA CLASE QUE TOCA
+            for c in m:
+                #AQUESTA DIST LA SUMEM A UNA VARIABLE QUE DESPRÉS DIVIDIREM ENTRE EL NOMBRE DE PIXELS COM FEIEM A LA
+                #WITHIN CLASS DISTANCE
+                dist += np.sum((self.X[pixels_per_centroids[:]]-c)**2)
+        return dist/len(self.X) #AQUESTA DIST VOLEM QUE SIGUI GRAN
+
     def find_bestK(self, max_K):
 
         self.K = 2
