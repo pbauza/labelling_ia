@@ -65,6 +65,7 @@ class KMeans:
 
         elif self.options['km_init'].lower() == 'custom':
             self.centroids = naive_sharding(self.X, self.K)
+            pass
 
 
     def get_labels(self):

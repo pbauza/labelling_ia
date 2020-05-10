@@ -27,10 +27,9 @@ class TestCases(unittest.TestCase):
     def test_init_centroids(self):
         for ix, input in enumerate(self.test_cases['input']):
             km = KMeans(input, self.test_cases['K'][ix])
-            #km.options['km_init'] = 'custom'
-            print(km.options['km_init'])
+            km.options['km_init'] = 'custom'
             km._init_centroids()
-            #np.testing.assert_array_equal(km.centroids, self.test_cases['init_centroid'][ix])
+            np.testing.assert_array_equal(km.centroids, self.test_cases['init_centroid'][ix])
 
     def test_distance(self):
         for ix, input in enumerate(self.test_cases['shape']):

@@ -25,7 +25,7 @@ class KNN:
         """
 
         #self.train_data es una matriu de P (número d'imatges) x 4800
-        self.train_data = train_data.reshape(len(train_data), len(train_data[0]) * len(train_data[0][1])).astype(float)
+        self.train_data = train_data.reshape(len(train_data), train_data[0].size).astype(float)
 
 
     def get_k_neighbours(self, test_data, k):
@@ -36,10 +36,10 @@ class KNN:
         :return: the matrix self.neighbors is created (NxK)
                  the ij-th entry is the j-th nearest train point to the i-th test point
         """
-        # test_data = test_data.reshape(len(test_data), len(test_data[0]) * len(test_data[0][1])).astype(float)
-        # self.neighbors = self.labels[np.argsort(cdist(test_data, self.train_data))[:, :k][:]] #Agafem labels dels K primers veïns (de cada train data) amb la cdist més curta
-        self.neighbors = self.labels[np.argsort(cdist(test_data.reshape(len(test_data), len(test_data[0]) * len(
-            test_data[0][1])).astype(float), self.train_data))[:, :k][:]]
+        test_data = test_data.reshape(len(test_data), test_data[0].size).astype(float)
+        self.neighbors = self.labels[np.argsort(cdist(test_data, self.train_data))[:, :k][:]] #Agafem labels dels K primers veïns (de cada train data) amb la cdist més curta
+        #self.neighbors = self.labels[np.argsort(cdist(test_data.reshape(len(test_data), len(test_data[0]) * len(
+        #    test_data[0][1])).astype(float), self.train_data))[:, :k][:]]
 
 
     def get_class(self):
