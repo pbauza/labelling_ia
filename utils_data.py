@@ -66,7 +66,7 @@ def read_one_img(img_name, w=60, h=80):
     return np.array(img)
 
 
-def visualize_retrieval(imgs, topN, info=None, ok=None, title='', query=None):
+def visualize_retrieval(imgs, topN, info=None, ok=None, title='', query=None, fig_name="fig.png"):
     def add_border(color):
         return np.stack([np.pad(imgs[i, :, :, c], 3, mode='constant', constant_values=color[c]) for c in range(3)], axis=2)
 
@@ -96,7 +96,7 @@ def visualize_retrieval(imgs, topN, info=None, ok=None, title='', query=None):
         if info is not None:
             plt.title(f'{info[i]}', fontsize=8)
     plt.gcf().suptitle(title)
-    plt.show()
+    plt.savefig(fig_name)
 
 
 # Visualize k-mean with 3D plot

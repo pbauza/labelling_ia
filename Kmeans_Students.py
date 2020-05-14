@@ -113,6 +113,11 @@ class KMeans:
                 dist += np.sum((self.X[pixels_per_centroids[:]]-c)**2)
         return dist/len(self.X) #AQUESTA DIST VOLEM QUE SIGUI GRAN
 
+    def fisherDiscriminant(self):
+        '''Fisher's Discriminant: (d_intra class) / (d_inter class)'''
+
+        return self.withinClassDistance() / self.interClassDistance()
+
     def find_bestK(self, max_K):
 
         self.K = 2
@@ -140,6 +145,8 @@ class KMeans:
         self.fit()
         if type == 'Inter':
             aux = self.interClassDistance()
+        elif type == 'Fisher':
+            aux = self.fisherDiscriminant()
         else:
             aux = self.withinClassDistance()
 
@@ -149,7 +156,10 @@ class KMeans:
             self.fit()
             if type == 'Inter':
                 w = self.interClassDistance()
-                percent = (aux/ w) * 100
+                percent = (aux / w) * 100
+            elif type == 'Fisher':
+                w = self.fisherDiscriminant()
+                percent = (w / aux) * 100
             else:
                 w = self.withinClassDistance()
                 percent = (w / aux) * 100
@@ -162,6 +172,7 @@ class KMeans:
                 aux = w
         if flag is False:
             self.K = max_K
+
         self.fit()
 
 def distance(X, C):

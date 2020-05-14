@@ -37,7 +37,7 @@ class KNN:
                  the ij-th entry is the j-th nearest train point to the i-th test point
         """
         test_data = test_data.reshape(len(test_data), test_data[0].size).astype(float)
-        self.neighbors = self.labels[np.argsort(cdist(test_data, self.train_data))[:, :k][:]] #Agafem labels dels K primers veïns (de cada train data) amb la cdist més curta
+        self.neighbors = self.labels[np.argsort(cdist(test_data, self.train_data))[:, :k][:]] #Agafem labels dels K primers veïns (de cada test data) amb la cdist més curta
         #self.neighbors = self.labels[np.argsort(cdist(test_data.reshape(len(test_data), len(test_data[0]) * len(
         #    test_data[0][1])).astype(float), self.train_data))[:, :k][:]]
 
@@ -57,7 +57,7 @@ class KNN:
 
         mostVotedValues = np.array([], dtype='<U8')
         #clothes = np.array([], dtype='<U8')
-        percent = np.empty([len(self.train_data), 1])
+        percent = np.empty([len(self.neighbors), 1])
         aux_dict = dict()
         clothes = []
 

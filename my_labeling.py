@@ -16,7 +16,7 @@ import random
 
 #ANALISIS QUALITATIU
 
-def retrieval_by_color(images, labels, colors):
+def retrieval_by_color(images, labels, colors, fig_name):
     c = np.empty([len(labels)], np.object)
     c[:] = np.nan
     p = np.empty([len(labels)], np.object)
@@ -42,14 +42,16 @@ def retrieval_by_color(images, labels, colors):
                 m += 1
 
     image_list = sorted(image_list.items(), key=itemgetter(1), reverse=True)
-    return_list = list()
+    return_list = []
 
     for i in range(len(image_list)):
         return_list.append(images[image_list[i][0]])
 
-    visualize_retrieval(return_list, 4)
+    visualize_retrieval(return_list, 4, fig_name=fig_name)
 
-def retrieval_by_shape(images, labels, shapes):
+    return return_list
+
+def retrieval_by_shape(images, labels, shapes, fig_name):
     c = np.empty([len(labels)], np.object)
     c[:] = np.nan
     p = np.empty([len(labels)], np.object)
@@ -75,13 +77,14 @@ def retrieval_by_shape(images, labels, shapes):
                 m += 1
 
     image_list = sorted(image_list.items(), key=itemgetter(1), reverse=True)
-    return_list = list()
+    return_list = []
 
     for i in range(len(image_list)):
         return_list.append(images[image_list[i][0]])
 
-    visualize_retrieval(return_list, 2) #no sabem per que no funciona si esta igual que laltre
+    visualize_retrieval(return_list, 4, fig_name=fig_name) #no sabem per que no funciona si esta igual que laltre
 
+    return return_list
 
 #ANALISI QUANTITATIU
 
@@ -93,7 +96,7 @@ def kmean_statistics(kmeans, kmax):
         #return kmeans.num_iter
 
 def get_shape_accuracy(labels, gt):
-    print("SHAPE ACCURACY: ", 100*sum(1 for x, y in zip(sorted(labels), sorted(gt)) if x == y)/len(labels), "%")
+    return str(sum(1 for x, y in zip(labels, gt) if x == y)/len(labels))
 
 def get_color_accuracy(labels, gt):
     c = np.empty([len(labels)], np.object)
@@ -110,8 +113,15 @@ def get_color_accuracy(labels, gt):
         m = np.argwhere(i == np.amax(i)).flatten().tolist()
         labels.append(c[index][m].tolist())
 
+    suma = 0; aux = 0
+    for x, y in zip(labels, gt):
+        aux = 0
+        for i in x:
+            if i in y:
+                aux += 1
+        suma += aux/len(x)
 
-    print("COLOR ACCURACY: ", 100*sum(1 for x, y in zip(labels, gt) if x == y)/len(labels), "%")
+    return str(suma / len(labels))
 
 
 if __name__ == '__main__':
@@ -124,21 +134,84 @@ if __name__ == '__main__':
     classes = list(set(list(train_class_labels) + list(test_class_labels)))
 
     #Test Qualitative Fuctions
-    retrieval_by_color(test_imgs, test_color_labels, ['Yellow', 'Black'])
-    retrieval_by_shape(test_imgs, test_class_labels, ['Socks'])
+    # retrieval_by_color(test_imgs, test_color_labels, ['Green', 'Blue'], "./imatges_proves/color/color1.png")
+    # retrieval_by_shape(test_imgs, test_class_labels, ['Socks'], "./imatges_proves/shape/shape1.png")
 
     #Test quantitative functions
-    knn = KNN(train_imgs[0:750], test_class_labels[0:750])
-    knn.predict(test_imgs[0:750], 4)
-    get_shape_accuracy(knn.labels, train_class_labels[0:750])
+
+    n_images_c = 50
+    n_images_s = 150
+    f = open('proves_color_' + str(n_images_c) + 'img.txt', 'w')
+    f1 = open('proves_shape_'+ str(n_images_s) + 'img.txt', 'w')
+    f.write("Iteration, Values, Type" + "\n")
+    f1.write("Iteration, Values, Type" + "\n")
+
+    types = ['Inter', 'Intra', 'Fisher']
 
     list = []
-    for i in range(0, 20):
+    n = 20
+    t = 'Intra'
+    f.write(str(-1) + ',' + str(n) + "," + t + ",")
+    for i in range(0, n_images_c):
         km = KMeans(test_imgs[i], 2)
-        km.find_bestK(10)
+        km.find_bestKImprovement(10, n, t)
         list.append(get_colors(km.centroids))
+    f.write(get_color_accuracy(list, test_color_labels[:40]) + "\n")
+    retrieval_by_color(test_imgs[:n_images_c], list, ['Green', 'Blue'],
+                       "./imatges_proves/color/" + "gb" + "_" + str(n) + "_" + t + ".png")
 
-    get_color_accuracy(list, test_color_labels[:20])
+    for it in range(0, 125):
+
+        n = random.randrange(10, 90)
+
+        t = types[0]
+        f.write(str(it) + "," + str(n) + "," + t + ",")
+        list = []
+        for i in range(0, n_images_c):
+            km = KMeans(test_imgs[i], 2)
+            km.find_bestKImprovement(10, n, t)
+            list.append(get_colors(km.centroids))
+        f.write(get_color_accuracy(list, test_color_labels[:n_images_c]) + "\n")
+        retrieval_by_color(test_imgs[:n_images_c], list, ['Green', 'Blue'],
+                           "./imatges_proves/color/" + "gb" + "_" + str(n) + "_" + t + ".png")
+
+        t = types[1]
+        f.write(str(it) + "," + str(n) + "," + t + ",")
+        list = []
+        for i in range(0, n_images_c):
+            km1 = KMeans(test_imgs[i], 2)
+            km1.find_bestKImprovement(10, n, t)
+            list.append(get_colors(km1.centroids))
+        f.write(get_color_accuracy(list, test_color_labels[:n_images_c]) + "\n")
+        retrieval_by_color(test_imgs[:n_images_c], list, ['Green', 'Blue'],
+                           "./imatges_proves/color/" + "gb" + "_" + str(n) + "_" + t + ".png")
+
+        t = types[2]
+        f.write(str(it) + "," + str(n) + "," + t + ",")
+        list = []
+        for i in range(0, n_images_c):
+            km2 = KMeans(test_imgs[i], 2)
+            km2.find_bestKImprovement(10, n, t)
+            list.append(get_colors(km2.centroids))
+        f.write(get_color_accuracy(list, test_color_labels[:n_images_c]) + "\n")
+        retrieval_by_color(test_imgs[:n_images_c], list, ['Green', 'Blue'],
+                           "./imatges_proves/color/" + "gb" + "_" + str(n) + "_" + t + ".png")
+
+    for it in range(0, 125):
+        ti = random.randrange(10, 100)
+        knn = KNN(train_imgs[:ti], train_class_labels[:ti])
+        preds = knn.predict(test_imgs[:n_images_s], 4)
+        f1.write(str(it) + "," + str(ti) + ",")
+        f1.write(get_shape_accuracy(preds, test_class_labels[:n_images_s]) + "\n")
+        retrieval_by_shape(test_imgs[:n_images_s], preds, [
+            "Dresses"], "./imatges_proves/shape/" + "dresses" + "_" + str(ti) + ".png")
+
+
+    #retrieval_by_color(test_imgs[0:40], list, ['Yellow', 'Black'])
+
+    f.close()
+    f1.close()
+
 
 
 
