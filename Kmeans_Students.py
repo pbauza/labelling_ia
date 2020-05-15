@@ -27,7 +27,7 @@ class KMeans:
         if options is None:
             options = {}
         if not 'km_init' in options:
-            options['km_init'] = 'first'
+            options['km_init'] = 'naive'
         if not 'verbose' in options:
             options['verbose'] = False
         if not 'tolerance' in options:
@@ -64,7 +64,24 @@ class KMeans:
                         break
 
         elif self.options['km_init'].lower() == 'custom':
-            self.centroids = naive_sharding(self.X, self.K)
+            sum1 = 0
+            sum2 = 0
+            sum3 = 0
+            for element in self.X:
+                sum1 += element[0]
+                sum2 += element[1]
+                sum3 += element[2]
+            mean1 = sum1 / 4800
+            mean2 = sum2 / 4800
+            mean3 = sum3 / 4800
+
+            for i in range(self.K):
+                if i % 2 == 0:
+                    self.centroids[i] = [mean1 + ((i * mean1) / self.K), mean2 + ((i * mean2) / self.K),
+                                         mean3 + ((mean3 * i) / self.K)]
+                else:
+                    self.centroids[i] = [mean1 - ((i * mean1) / self.K), mean2 - ((i * mean2) / self.K),
+                                         mean3 - ((i * mean3) / self.K)]
 
         pass
 
@@ -77,8 +94,13 @@ class KMeans:
     def get_centroids(self):
 
         self.old_centroids = np.array(self.centroids, copy=True)
+        m = np.bincount(self.labels, minlength=self.K)
+        m = m.reshape(-1,1)
+        for ind, n in enumerate(m):
+            if n[0] == 0:
+                m[ind] += 1
         self.centroids = [self.X[self.labels == index].sum(0) for index in range(
-            0, len(self.centroids))] / np.bincount(self.labels).reshape(-1, 1)
+            0, len(self.centroids))] / m
 
 
     def converges(self):

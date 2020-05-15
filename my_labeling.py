@@ -133,19 +133,23 @@ if __name__ == '__main__':
     #List with all the existant classes
     classes = list(set(list(train_class_labels) + list(test_class_labels)))
 
-    lista = []
-    for i in range(0, 750):
-        km = KMeans(test_imgs[i], 2)
-        km.find_bestKImprovement(10, 20, 'Intra')
-        lista.append(get_colors(km.centroids))
-    retrieval_by_color(test_imgs[:750], lista, ['Red', 'White'],
-                       "./imatges_proves/defecte/" + "rw" + "_" + "Custom" + ".png")
+    # lista = []
+    # for i in range(0, 1):
+    #     km = KMeans(test_imgs[i], 2)
+    #     km.find_bestKImprovement(10, 20, 'Intra')
+    #     lista.append(get_colors(km.centroids))
+    # print("RABOGORDO")
+    # retrieval_by_color(test_imgs[:750], lista, ['Red', 'White'],
+    #                    "./imatges_proves/defecte/" + "rw" + "_" + "Custom" + ".png")
 
     #Test Qualitative Fuctions
     # retrieval_by_color(test_imgs, test_color_labels, ['Green', 'Blue'], "./imatges_proves/color/color1.png")
     # retrieval_by_shape(test_imgs, test_class_labels, ['Socks'], "./imatges_proves/shape/shape1.png")
 
     #Test quantitative functions
+
+    element_kmeans = KMeans(test_imgs[0])
+    kmean_statistics(element_kmeans, 10)
 
     # n_images_c = 50
     # n_images_s = 150
