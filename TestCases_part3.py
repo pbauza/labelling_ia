@@ -26,12 +26,13 @@ class TestCases(unittest.TestCase):
         colors = list()
         for ix, input in enumerate(self.test_cases['input']):
             km = KMeans(input, self.test_cases['K'][ix])
+            km.options['km_init'] = 'custom'
             km.fit()
             labels.append(get_colors(km.centroids))
             imatges.append(input)
         # for i in range(0, random.randrange(1, 4)):
         #     colors.append(utils.colors[random.randrange(0, 11)])
-        colors.append("Grey")
+        colors.append("Green")
         colors.append("Blue")
         out = ml.Retrieval_by_color(imatges, labels, colors)
         pass

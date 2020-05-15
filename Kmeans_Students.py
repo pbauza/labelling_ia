@@ -4,6 +4,9 @@ __group__ = 'DL.15'
 import numpy as np
 import utils
 from math import floor
+import scipy
+import kmeans
+from sklearn.cluster import KMeans
 
 
 class KMeans:
@@ -64,8 +67,16 @@ class KMeans:
                         break
 
         elif self.options['km_init'].lower() == 'custom':
-            self.centroids = naive_sharding(self.X, self.K)
+            #self.centroids = naive_sharding(self.X, self.K)
+            '''
+            aux = naive_sharding(self.X, self.K)
+            for index, element in enumerate(aux):
+                self.centroids[index] = element
+            '''
+            kmeans_model = KMeans(n_clusters=self.K).fit(self.X)
+            self.centroids = kmeans_model.cluster_centers_
 
+        tipo = type(self.centroids)
         pass
 
 
@@ -77,9 +88,10 @@ class KMeans:
     def get_centroids(self):
 
         self.old_centroids = np.array(self.centroids, copy=True)
-        self.centroids = [self.X[self.labels == index].sum(0) for index in range(
-            0, len(self.centroids))] / np.bincount(self.labels).reshape(-1, 1)
-
+        self.centroids = [self.X[self.labels == index].sum(0) for index in range(0, len(self.centroids))] / np.bincount(self.labels).reshape(-1, 1)
+        tipo = type(self.old_centroids)
+        tipo2 = type(self.centroids)
+        basura = 1
 
     def converges(self):
 
@@ -151,7 +163,8 @@ class KMeans:
         else:
             aux = self.withinClassDistance()
 
-        self.K += 1
+        #self.K += 1
+        self.K = 5
         flag = False
         while (self.K <= max_K) and (flag is False):
             self.fit()
@@ -187,6 +200,15 @@ def get_colors(centroids):
     return [utils.colors[np.argmax(utils.get_color_prob(centroids)[c])] for c in range(len(centroids))]
 
 
+
+
+
+'''
+# https://stackoverflow.com/questions/5466323/how-could-one-implement-the-k-means-algorithm
+
+'''
+
+'''
 def naive_sharding(ds, k):
     """
     Create cluster centroids using deterministic naive sharding algorithm.
@@ -257,3 +279,4 @@ def _get_mean(sums, step):
     """
 
     return sums / step
+'''

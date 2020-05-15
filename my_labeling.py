@@ -136,9 +136,10 @@ if __name__ == '__main__':
     lista = []
     for i in range(0, 750):
         km = KMeans(test_imgs[i], 2)
+        km.options['km_init'] = 'custom'
         km.find_bestKImprovement(10, 20, 'Intra')
         lista.append(get_colors(km.centroids))
-    retrieval_by_color(test_imgs[:750], lista, ['Red', 'White'],
+    retrieval_by_color(test_imgs[:750], lista, ['Blue', 'Green'],
                        "./imatges_proves/defecte/" + "rw" + "_" + "Custom" + ".png")
 
     #Test Qualitative Fuctions
