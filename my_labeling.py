@@ -92,8 +92,7 @@ def kmean_statistics(kmeans, kmax):
     for i in range(2, kmax):
         kmeans.find_bestK(i)
         shape = kmeans.X.shape
-        visualize_k_means(kmeans, shape)
-        #return kmeans.num_iter
+        visualize_k_means(kmeans, shape, i)
 
 def get_shape_accuracy(labels, gt):
     return str(sum(1 for x, y in zip(labels, gt) if x == y)/len(labels))
@@ -134,11 +133,10 @@ if __name__ == '__main__':
     classes = list(set(list(train_class_labels) + list(test_class_labels)))
 
     # lista = []
-    # for i in range(0, 1):
+    # for i in range(0, 750):
     #     km = KMeans(test_imgs[i], 2)
     #     km.find_bestKImprovement(10, 20, 'Intra')
     #     lista.append(get_colors(km.centroids))
-    # print("RABOGORDO")
     # retrieval_by_color(test_imgs[:750], lista, ['Red', 'White'],
     #                    "./imatges_proves/defecte/" + "rw" + "_" + "Custom" + ".png")
 

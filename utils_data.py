@@ -112,32 +112,32 @@ def Plot3DCloud(km, rows=1, cols=1, spl_id=1):
     ax.set_zlabel('dim 3')
     return ax
 
-def visualize_k_means(kmeans, img_shape):
+def visualize_k_means(kmeans, img_shape, k):
     def prepare_img(x, img_shape):
         x = np.clip(x.astype('uint8'), 0, 255)
         x = x.reshape(img_shape)
         return x
 
-    fig = plt.figure(figsize=(16, 8))
+    fig = plt.figure(figsize=(8, 8))
 
-    X_compressed = kmeans.centroids[kmeans.labels]
-    X_compressed = prepare_img(X_compressed, img_shape)
+    # X_compressed = kmeans.centroids[kmeans.labels]
+    # X_compressed = prepare_img(X_compressed, img_shape)
+    #
+    # org_img = prepare_img(kmeans.X, img_shape)
+    #
+    # fig.add_subplot(131)
+    # plt.imshow(org_img)
+    # plt.title('original')
+    # plt.axis('off')
+    #
+    # fig.add_subplot(132)
+    #
+    # plt.imshow(X_compressed)
+    # plt.axis('off')
+    # plt.title('kmeans')
 
-    org_img = prepare_img(kmeans.X, img_shape)
-
-    fig.add_subplot(131)
-    plt.imshow(org_img)
-    plt.title('original')
-    plt.axis('off')
-
-    fig.add_subplot(132)
-
-    plt.imshow(X_compressed)
-    plt.axis('off')
-    plt.title('kmeans')
-
-    Plot3DCloud(kmeans, 1, 3, 3)
-    plt.title('núvol de punts')
+    Plot3DCloud(kmeans, 1, 1, 1)
+    plt.title('núvol de punts per k = ' + str(k))
     plt.show()
 
 
