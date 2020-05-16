@@ -28,7 +28,7 @@ class KMeans:
         if options is None:
             options = {}
         if not 'km_init' in options:
-            options['km_init'] = 'custom'
+            options['km_init'] = 'first'
         if not 'verbose' in options:
             options['verbose'] = False
         if not 'tolerance' in options:

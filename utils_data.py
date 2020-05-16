@@ -138,6 +138,6 @@ def visualize_k_means(kmeans, img_shape, k):
 
     Plot3DCloud(kmeans, 1, 1, 1)
     plt.title('núvol de punts per k = ' + str(k))
-    plt.show()
+    plt.savefig("./imatges_proves/nuvols/" + str(k) + "_80_Intra'.png")
 
 
