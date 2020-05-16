@@ -94,9 +94,9 @@ class KMeans:
                 sum1 += element[0]
                 sum2 += element[1]
                 sum3 += element[2]
-            mean1 = sum1 / 4800
-            mean2 = sum2 / 4800
-            mean3 = sum3 / 4800
+            mean1 = sum1 / len(self.X)
+            mean2 = sum2 / len(self.X)
+            mean3 = sum3 / len(self.X)
 
             for i in range(self.K):
                 if i % 2 == 0:
@@ -106,7 +106,7 @@ class KMeans:
                     self.centroids[i] = [mean1 - ((i * mean1) / self.K), mean2 - ((i * mean2) / self.K),
                                          mean3 - ((i * mean3) / self.K)]
 
-        pass
+
 
 
     def get_labels(self):
@@ -186,6 +186,7 @@ class KMeans:
                 aux = w
         if flag is False:
             self.K = max_K
+
         self.fit()
 
     def find_bestKImprovement(self, max_K, value, type):

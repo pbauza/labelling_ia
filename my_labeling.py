@@ -2,14 +2,15 @@ __authors__ = ['1491858', '1493406', '1493962']
 __group__ = 'DL.15'
 
 import numpy as np
-import KMeans
+import Kmeans
 import KNN
 from KNN import *
-from KMeans import *
+from Kmeans import *
 from utils_data import read_dataset, visualize_k_means, visualize_retrieval, Plot3DCloud
 from operator import itemgetter
 import matplotlib.pyplot as plt
 import random
+import time
 
 
 # === QUALITATIVE ANALYSIS ===
@@ -90,11 +91,30 @@ def retrieval_by_shape(images, labels, shapes, fig_name):
 
 # === QUANTITATIVE ANALYSIS ===
 
-def kmean_statistics(kmeans, kmax):
+def kmean_statistics(kmeans, kmax, test_imgs):
+    # Results for 2 <= x < Kmax
+
+    '''
     for i in range(2, kmax):
-        kmeans.find_bestKImprovement(i, 80, 'Intra')
-        shape = kmeans.X.shape
-        visualize_k_means(kmeans, shape, i)
+        start = time.time()
+        kmeans.find_bestKImprovement(i, 50, 'Intra')
+        end = time.time()
+        res = end-start
+        visualize_k_means(kmeans, [80,60,3], i, res)
+    '''
+
+    # Result for the 'Kmax' given
+
+    start = time.time()
+    kmeans.find_bestKImprovement(kmax, 20, 'Intra')
+    end = time.time()
+    res = end-start
+
+    # Should work, but does not. This way we do not fix the image's size
+    
+    #visualize_k_means(kmeans, [int(len(test_imgs[0])),int(len(test_imgs[0][0])),int(len(test_imgs[0][0[0]]))], kmeans.K, res)
+    visualize_k_means(kmeans, [80,60,3], kmeans.K, res)
+
 
 def get_shape_accuracy(labels, gt):
     return str(sum(1 for x, y in zip(labels, gt) if x == y)/len(labels))
@@ -152,10 +172,12 @@ if __name__ == '__main__':
 
     # TESTING QUANTITATIVE FUNCTIONS
 
-    '''
-    element_kmeans = KMeans(test_imgs[10])
-    kmean_statistics(element_kmeans, 10)
 
+    for i in range(10):#range(len(test_imgs)):
+        element_kmeans = KMeans(test_imgs[i])
+        kmean_statistics(element_kmeans, 10, test_imgs)
+
+    '''
     n_images_c = 50
     n_images_s = 150
     f = open('proves_color_' + str(n_images_c) + 'img.txt', 'w')
