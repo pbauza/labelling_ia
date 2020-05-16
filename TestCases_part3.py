@@ -32,9 +32,8 @@ class TestCases(unittest.TestCase):
             imatges.append(input)
         # for i in range(0, random.randrange(1, 4)):
         #     colors.append(utils.colors[random.randrange(0, 11)])
-        colors.append("Green")
-        colors.append("Blue")
-        out = ml.Retrieval_by_color(imatges, labels, colors)
+        colors.append("Red")
+        out = ml.retrieval_by_color(imatges, labels, colors, "./imatges_proves/fig.png")
         pass
 
     def test_retrieval_by_shape(self):

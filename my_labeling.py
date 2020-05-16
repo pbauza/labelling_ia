@@ -140,18 +140,23 @@ if __name__ == '__main__':
     # retrieval_by_color(test_imgs[:750], lista, ['Red', 'White'],
     #                    "./imatges_proves/defecte/" + "rw" + "_" + "Custom" + ".png")
 
+    knn = KNN(train_imgs[:500], train_class_labels[:500])
+    preds = knn.predict(test_imgs[:150], 4)
+    retrieval_by_color(test_imgs[:150], preds, ['Sandals'],
+                       "./imatges_proves/shape/" + "sd" + "_" + "500" + ".png")
+
+
     #Test Qualitative Fuctions
     # retrieval_by_color(test_imgs, test_color_labels, ['Green', 'Blue'], "./imatges_proves/color/color1.png")
     # retrieval_by_shape(test_imgs, test_class_labels, ['Socks'], "./imatges_proves/shape/shape1.png")
 
     #Test quantitative functions
 
-    element_kmeans = KMeans(test_imgs[0])
-    kmean_statistics(element_kmeans, 10)
+    # element_kmeans = KMeans(test_imgs[0])
+    # kmean_statistics(element_kmeans, 10)
 
     # n_images_c = 50
-    # n_images_s = 150
-    # f = open('proves_color_' + str(n_images_c) + 'img.txt', 'w')
+    # n_images_s = 150    # f = open('proves_color_' + str(n_images_c) + 'img.txt', 'w')
     # f1 = open('proves_shape_'+ str(n_images_s) + 'img.txt', 'w')
     # f.write("Iteration, Values, Type" + "\n")
     # f1.write("Iteration, Values, Type" + "\n")

@@ -4,6 +4,7 @@ __group__ = 'DL.15'
 import numpy as np
 import utils
 from math import floor
+from utils_data import *
 
 
 class KMeans:
@@ -208,7 +209,24 @@ def get_colors(centroids):
 
     return [utils.colors[np.argmax(utils.get_color_prob(centroids)[c])] for c in range(len(centroids))]
 
+def printCustomPoints(centroids):
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
 
+
+    # For each set of style and range settings, plot n random points in the box
+    # defined by x in [23, 32], y in [0, 100], z in [zlow, zhigh].
+    for x, y, z in centroids:
+        #xs = randrange(n, 23, 32)
+        #ys = randrange(n, 0, 100)
+        #zs = randrange(n, zlow, zhigh)
+        ax.scatter(x, y, z)
+
+    ax.set_xlabel('X Label')
+    ax.set_ylabel('Y Label')
+    ax.set_zlabel('Z Label')
+
+    plt.show()
 
 #NAIVE SHARDING CODE:
 
