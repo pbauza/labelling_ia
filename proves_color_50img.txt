@@ -1,5 +1,302 @@
-Iteration, Values, Type
--1,20,Intra,0.415
-0,76,Inter,0.57
-0,76,Intra,0.58
-0,76,Fisher,0.6366666666666667
+Iteration	 Values	 Type			Iteration	 Values	 Type			Iteration	 Values	 Type			22	5	Intra	18,00%
+22	5	Inter	10,00%		22	5	Inter	10,00%		22	5	Fisher	14,00%		67	6	Intra	16,00%
+22	5	Intra	18,00%		67	6	Inter	12,00%		67	6	Fisher	14,00%		12	7	Intra	18,00%
+22	5	Fisher	14,00%		12	7	Inter	12,00%		12	7	Fisher	16,00%		66	8	Intra	16,00%
+67	6	Inter	12,00%		66	8	Inter	14,00%		66	8	Fisher	16,00%		6	9	Intra	18,00%
+67	6	Intra	16,00%		6	9	Inter	14,00%		6	9	Fisher	16,00%		23	11	Intra	18,00%
+67	6	Fisher	14,00%		23	11	Inter	14,00%		23	11	Fisher	14,00%		34	14	Intra	20,00%
+12	7	Inter	12,00%		34	14	Inter	20,00%		34	14	Fisher	20,00%		59	17	Intra	20,00%
+12	7	Intra	18,00%		59	17	Inter	18,00%		59	17	Fisher	16,00%		87	18	Intra	18,00%
+12	7	Fisher	16,00%		87	18	Inter	20,00%		87	18	Fisher	16,00%		20	19	Intra	18,00%
+66	8	Inter	14,00%		20	19	Inter	20,00%		20	19	Fisher	16,00%		-1	20	Intra	16,00%
+66	8	Intra	16,00%		-1	20	Intra	16,00%		11	23	Fisher	16,00%		11	23	Intra	20,00%
+66	8	Fisher	16,00%		11	23	Inter	16,00%		24	24	Fisher	16,00%		24	24	Intra	20,00%
+6	9	Inter	14,00%		24	24	Inter	16,00%		60	25	Fisher	16,00%		60	25	Intra	20,00%
+6	9	Intra	18,00%		60	25	Inter	18,00%		33	26	Fisher	16,00%		33	26	Intra	20,00%
+6	9	Fisher	16,00%		33	26	Inter	14,00%		5	27	Fisher	18,00%		5	27	Intra	20,00%
+23	11	Inter	14,00%		5	27	Inter	12,00%		29	30	Fisher	18,00%		29	30	Intra	18,00%
+23	11	Intra	18,00%		29	30	Inter	10,00%		19	31	Fisher	18,00%		19	31	Intra	18,00%
+23	11	Fisher	14,00%		19	31	Inter	10,00%		1	33	Fisher	18,00%		1	33	Intra	14,00%
+34	14	Inter	20,00%		1	33	Inter	12,00%		45	34	Fisher	18,00%		45	34	Intra	14,00%
+34	14	Intra	20,00%		45	34	Inter	12,00%		16	35	Fisher	18,00%		16	35	Intra	16,00%
+34	14	Fisher	20,00%		16	35	Inter	10,00%		35	38	Fisher	20,00%		35	38	Intra	12,00%
+59	17	Inter	18,00%		35	38	Inter	10,00%		4	40	Fisher	20,00%		4	40	Intra	10,00%
+59	17	Intra	20,00%		4	40	Inter	10,00%		44	42	Fisher	18,00%		44	42	Intra	12,00%
+59	17	Fisher	16,00%		44	42	Inter	8,00%		77	43	Fisher	18,00%		77	43	Intra	10,00%
+87	18	Inter	20,00%		77	43	Inter	8,00%		30	45	Fisher	20,00%		30	45	Intra	10,00%
+87	18	Intra	18,00%		30	45	Inter	8,00%		3	46	Fisher	20,00%		3	46	Intra	10,00%
+87	18	Fisher	16,00%		3	46	Inter	8,00%		18	47	Fisher	20,00%		18	47	Intra	10,00%
+20	19	Inter	20,00%		18	47	Inter	8,00%		46	49	Fisher	18,00%		46	49	Intra	10,00%
+20	19	Intra	18,00%		46	49	Inter	8,00%		62	52	Fisher	18,00%		62	52	Intra	10,00%
+20	19	Fisher	16,00%		62	52	Inter	6,00%		8	54	Fisher	14,00%		8	54	Intra	4,00%
+11	23	Inter	16,00%		8	54	Inter	6,00%		7	55	Fisher	14,00%		7	55	Intra	4,00%
+11	23	Intra	20,00%		7	55	Inter	6,00%		75	57	Fisher	10,00%		75	57	Intra	4,00%
+11	23	Fisher	16,00%		75	57	Inter	6,00%		76	58	Fisher	10,00%		76	58	Intra	4,00%
+24	24	Inter	16,00%		76	58	Inter	6,00%		93	59	Fisher	10,00%		93	59	Intra	4,00%
+24	24	Intra	20,00%		93	59	Inter	6,00%		27	61	Fisher	10,00%		27	61	Intra	4,00%
+24	24	Fisher	16,00%		27	61	Inter	6,00%		37	63	Fisher	8,00%		37	63	Intra	6,00%
+60	25	Inter	18,00%		37	63	Inter	6,00%		49	67	Fisher	8,00%		49	67	Intra	6,00%
+60	25	Intra	20,00%		49	67	Inter	6,00%		10	68	Fisher	8,00%		10	68	Intra	8,00%
+60	25	Fisher	16,00%		10	68	Inter	6,00%		0	70	Fisher	6,00%		0	70	Intra	8,00%
+33	26	Inter	14,00%		0	70	Inter	6,00%		36	72	Fisher	8,00%		36	72	Intra	8,00%
+33	26	Intra	20,00%		36	72	Inter	6,00%		31	74	Fisher	6,00%		31	74	Intra	8,00%
+33	26	Fisher	16,00%		31	74	Inter	6,00%		74	75	Fisher	6,00%		74	75	Intra	8,00%
+5	27	Inter	12,00%		74	75	Inter	6,00%		21	76	Fisher	6,00%		21	76	Intra	8,00%
+5	27	Intra	20,00%		21	76	Inter	6,00%		71	77	Fisher	6,00%		71	77	Intra	8,00%
+5	27	Fisher	18,00%		71	77	Inter	6,00%		69	80	Fisher	8,00%		69	80	Intra	8,00%
+29	30	Inter	10,00%		69	80	Inter	6,00%		58	81	Fisher	8,00%		58	81	Intra	8,00%
+29	30	Intra	18,00%		58	81	Inter	6,00%		63	83	Fisher	8,00%		63	83	Intra	6,00%
+29	30	Fisher	18,00%		63	83	Inter	6,00%		68	84	Fisher	8,00%		68	84	Intra	6,00%
+19	31	Inter	10,00%		68	84	Inter	6,00%		79	85	Fisher	8,00%		79	85	Intra	6,00%
+19	31	Intra	18,00%		79	85	Inter	6,00%		17	86	Fisher	8,00%		17	86	Intra	6,00%
+19	31	Fisher	18,00%		17	86	Inter	6,00%		99	87	Fisher	8,00%		99	87	Intra	6,00%
+1	33	Inter	12,00%		99	87	Inter	6,00%		72	88	Fisher	8,00%		72	88	Intra	6,00%
+1	33	Intra	14,00%		72	88	Inter	6,00%		2	89	Fisher	8,00%		2	89	Intra	6,00%
+1	33	Fisher	18,00%		2	89	Inter	6,00%		94	90	Fisher	8,00%		94	90	Intra	6,00%
+45	34	Inter	12,00%		94	90	Inter	6,00%		25	91	Fisher	6,00%		25	91	Intra	6,00%
+45	34	Intra	14,00%		25	91	Inter	6,00%		13	92	Fisher	6,00%		13	92	Intra	6,00%
+45	34	Fisher	18,00%		13	92	Inter	6,00%		42	93	Fisher	6,00%		42	93	Intra	6,00%
+16	35	Inter	10,00%		42	93	Inter	6,00%		9	94	Fisher	6,00%		9	94	Intra	6,00%
+16	35	Intra	16,00%		9	94	Inter	6,00%										
+16	35	Fisher	18,00%															
+35	38	Inter	10,00%															
+35	38	Intra	12,00%															
+35	38	Fisher	20,00%															
+4	40	Inter	10,00%															
+4	40	Intra	10,00%															
+4	40	Fisher	20,00%															
+44	42	Inter	8,00%															
+44	42	Intra	12,00%															
+44	42	Fisher	18,00%															
+77	43	Inter	8,00%															
+77	43	Intra	10,00%															
+77	43	Fisher	18,00%															
+30	45	Inter	8,00%															
+30	45	Intra	10,00%															
+30	45	Fisher	20,00%															
+3	46	Inter	8,00%															
+3	46	Intra	10,00%															
+3	46	Fisher	20,00%															
+18	47	Inter	8,00%															
+18	47	Intra	10,00%															
+18	47	Fisher	20,00%															
+46	49	Inter	8,00%															
+46	49	Intra	10,00%															
+46	49	Fisher	18,00%															
+62	52	Inter	6,00%															
+62	52	Intra	10,00%															
+62	52	Fisher	18,00%															
+8	54	Inter	6,00%															
+8	54	Intra	4,00%															
+8	54	Fisher	14,00%															
+7	55	Inter	6,00%															
+7	55	Intra	4,00%															
+7	55	Fisher	14,00%															
+75	57	Inter	6,00%															
+75	57	Intra	4,00%															
+75	57	Fisher	10,00%															
+76	58	Inter	6,00%															
+76	58	Intra	4,00%															
+76	58	Fisher	10,00%															
+93	59	Inter	6,00%															
+93	59	Intra	4,00%															
+93	59	Fisher	10,00%															
+27	61	Inter	6,00%															
+27	61	Intra	4,00%															
+27	61	Fisher	10,00%															
+37	63	Inter	6,00%															
+37	63	Intra	6,00%															
+37	63	Fisher	8,00%															
+49	67	Inter	6,00%															
+49	67	Intra	6,00%															
+49	67	Fisher	8,00%															
+10	68	Inter	6,00%															
+10	68	Intra	8,00%															
+10	68	Fisher	8,00%															
+0	70	Inter	6,00%															
+0	70	Intra	8,00%															
+0	70	Fisher	6,00%															
+36	72	Inter	6,00%															
+36	72	Intra	8,00%															
+36	72	Fisher	8,00%															
+31	74	Inter	6,00%															
+31	74	Intra	8,00%															
+31	74	Fisher	6,00%															
+74	75	Inter	6,00%															
+74	75	Intra	8,00%															
+74	75	Fisher	6,00%															
+21	76	Inter	6,00%															
+21	76	Intra	8,00%															
+21	76	Fisher	6,00%															
+71	77	Inter	6,00%															
+71	77	Intra	8,00%															
+71	77	Fisher	6,00%															
+69	80	Inter	6,00%															
+69	80	Intra	8,00%															
+69	80	Fisher	8,00%															
+58	81	Inter	6,00%															
+58	81	Intra	8,00%															
+58	81	Fisher	8,00%															
+63	83	Inter	6,00%															
+63	83	Intra	6,00%															
+63	83	Fisher	8,00%															
+68	84	Inter	6,00%															
+68	84	Intra	6,00%															
+68	84	Fisher	8,00%															
+79	85	Inter	6,00%															
+79	85	Intra	6,00%															
+79	85	Fisher	8,00%															
+17	86	Inter	6,00%															
+17	86	Intra	6,00%															
+17	86	Fisher	8,00%															
+99	87	Inter	6,00%															
+99	87	Intra	6,00%															
+99	87	Fisher	8,00%															
+72	88	Inter	6,00%															
+72	88	Intra	6,00%															
+72	88	Fisher	8,00%															
+2	89	Inter	6,00%															
+2	89	Intra	6,00%															
+2	89	Fisher	8,00%															
+94	90	Inter	6,00%															
+94	90	Intra	6,00%															
+94	90	Fisher	8,00%															
+25	91	Inter	6,00%															
+25	91	Intra	6,00%															
+25	91	Fisher	6,00%															
+13	92	Inter	6,00%															
+13	92	Intra	6,00%															
+13	92	Fisher	6,00%															
+42	93	Inter	6,00%															
+42	93	Intra	6,00%															
+42	93	Fisher	6,00%															
+9	94	Inter	6,00%															
+9	94	Intra	6,00%															
+9	94	Fisher	6,00%															
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		
+																		

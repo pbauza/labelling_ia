@@ -8,11 +8,9 @@ from KNN import *
 from Kmeans_Students import *
 from utils_data import read_dataset, visualize_k_means, visualize_retrieval, Plot3DCloud
 import matplotlib.pyplot as plt
-#import cv2
-from operator import  itemgetter
+from operator import itemgetter
 import random
 
-## You can start coding your functions here
 
 #ANALISIS QUALITATIU
 
@@ -82,7 +80,7 @@ def retrieval_by_shape(images, labels, shapes, fig_name):
     for i in range(len(image_list)):
         return_list.append(images[image_list[i][0]])
 
-    visualize_retrieval(return_list, 4, fig_name=fig_name) #no sabem per que no funciona si esta igual que laltre
+    visualize_retrieval(return_list, 4, fig_name=fig_name)
 
     return return_list
 
@@ -112,15 +110,7 @@ def get_color_accuracy(labels, gt):
         m = np.argwhere(i == np.amax(i)).flatten().tolist()
         labels.append(c[index][m].tolist())
 
-    suma = 0; aux = 0
-    for x, y in zip(labels, gt):
-        aux = 0
-        for i in x:
-            if i in y:
-                aux += 1
-        suma += aux/len(y)
-
-    return str(suma / len(labels))
+    return str(sum(1 for x, y in zip(labels, gt) if x == y)/len(labels))
 
 
 if __name__ == '__main__':
@@ -155,63 +145,63 @@ if __name__ == '__main__':
     # element_kmeans = KMeans(test_imgs[10])
     # kmean_statistics(element_kmeans, 10)
 
-    n_images_c = 50
-    n_images_s = 150
-    f = open('proves_color_' + str(n_images_c) + 'img.txt', 'w')
-    f1 = open('proves_shape_'+ str(n_images_s) + 'img.txt', 'w')
-    f.write("Iteration, Values, Type" + "\n")
-    f1.write("Iteration, Values, Type" + "\n")
-
-    types = ['Inter', 'Intra', 'Fisher']
-
-    list = []
-    n = 20
-    t = 'Intra'
-    f.write(str(-1) + ',' + str(n) + "," + t + ",")
-    for i in range(0, n_images_c):
-        km = KMeans(test_imgs[i], 2)
-        km.find_bestKImprovement(10, n, t)
-        list.append(get_colors(km.centroids))
-    f.write(get_color_accuracy(list, test_color_labels[:40]) + "\n")
-    retrieval_by_color(test_imgs[:n_images_c], list, ['Red', 'White'],
-                       "./imatges_proves/color/" + "rw" + "_" + str(n) + "_" + t + ".png")
-
-    for it in range(0, 1):
-
-        n = random.randrange(10, 90)
-
-        t = types[0]
-        f.write(str(it) + "," + str(n) + "," + t + ",")
-        list = []
-        for i in range(0, n_images_c):
-            km = KMeans(test_imgs[i], 2)
-            km.find_bestKImprovement(10, n, t)
-            list.append(get_colors(km.centroids))
-        f.write(get_color_accuracy(list, test_color_labels[:n_images_c]) + "\n")
-        retrieval_by_color(test_imgs[:n_images_c], list, ['Red', 'White'],
-                           "./imatges_proves/color/" + "rw" + "_" + str(n) + "_" + t + ".png")
-
-        t = types[1]
-        f.write(str(it) + "," + str(n) + "," + t + ",")
-        list = []
-        for i in range(0, n_images_c):
-            km1 = KMeans(test_imgs[i], 2)
-            km1.find_bestKImprovement(10, n, t)
-            list.append(get_colors(km1.centroids))
-        f.write(get_color_accuracy(list, test_color_labels[:n_images_c]) + "\n")
-        retrieval_by_color(test_imgs[:n_images_c], list, ['Red', 'White'],
-                           "./imatges_proves/color/" + "rw" + "_" + str(n) + "_" + t + ".png")
-
-        t = types[2]
-        f.write(str(it) + "," + str(n) + "," + t + ",")
-        list = []
-        for i in range(0, n_images_c):
-            km2 = KMeans(test_imgs[i], 2)
-            km2.find_bestKImprovement(10, n, t)
-            list.append(get_colors(km2.centroids))
-        f.write(get_color_accuracy(list, test_color_labels[:n_images_c]) + "\n")
-        retrieval_by_color(test_imgs[:n_images_c], list, ['Red', 'White'],
-                           "./imatges_proves/color/" + "rw" + "_" + str(n) + "_" + t + ".png")
+    # n_images_c = 50
+    # n_images_s = 150
+    # f = open('proves_color_' + str(n_images_c) + 'img.txt', 'w')
+    # f1 = open('proves_shape_'+ str(n_images_s) + 'img.txt', 'w')
+    # f.write("Iteration, Values, Type" + "\n")
+    # f1.write("Iteration, Values, Type" + "\n")
+    #
+    # types = ['Inter', 'Intra', 'Fisher']
+    #
+    # list = []
+    # n = 20
+    # t = 'Intra'
+    # f.write(str(-1) + ',' + str(n) + "," + t + ",")
+    # for i in range(0, n_images_c):
+    #     km = KMeans(test_imgs[i], 2)
+    #     km.find_bestKImprovement(10, n, t)
+    #     list.append(get_colors(km.centroids))
+    # f.write(get_color_accuracy(list, test_color_labels[:40]) + "\n")
+    # retrieval_by_color(test_imgs[:n_images_c], list, ['Red', 'White'],
+    #                    "./imatges_proves/color/" + "rw" + "_" + str(n) + "_" + t + ".png")
+    #
+    # for it in range(0, 100):
+    #
+    #     n = random.randrange(5, 95)
+    #
+    #     t = types[0]
+    #     f.write(str(it) + "," + str(n) + "," + t + ",")
+    #     list = []
+    #     for i in range(0, n_images_c):
+    #         km = KMeans(test_imgs[i], 2)
+    #         km.find_bestKImprovement(10, n, t)
+    #         list.append(get_colors(km.centroids))
+    #     f.write(get_color_accuracy(list, test_color_labels[:n_images_c]) + "\n")
+    #     # retrieval_by_color(test_imgs[:n_images_c], list, ['Red', 'White'],
+    #     #                    "./imatges_proves/color/" + "rw" + "_" + str(n) + "_" + t + ".png")
+    #
+    #     t = types[1]
+    #     f.write(str(it) + "," + str(n) + "," + t + ",")
+    #     list = []
+    #     for i in range(0, n_images_c):
+    #         km1 = KMeans(test_imgs[i], 2)
+    #         km1.find_bestKImprovement(10, n, t)
+    #         list.append(get_colors(km1.centroids))
+    #     f.write(get_color_accuracy(list, test_color_labels[:n_images_c]) + "\n")
+    #     # retrieval_by_color(test_imgs[:n_images_c], list, ['Red', 'White'],
+    #     #                    "./imatges_proves/color/" + "rw" + "_" + str(n) + "_" + t + ".png")
+    #
+    #     t = types[2]
+    #     f.write(str(it) + "," + str(n) + "," + t + ",")
+    #     list = []
+    #     for i in range(0, n_images_c):
+    #         km2 = KMeans(test_imgs[i], 2)
+    #         km2.find_bestKImprovement(10, n, t)
+    #         list.append(get_colors(km2.centroids))
+    #     f.write(get_color_accuracy(list, test_color_labels[:n_images_c]) + "\n")
+        # retrieval_by_color(test_imgs[:n_images_c], list, ['Red', 'White'],
+        #                    "./imatges_proves/color/" + "rw" + "_" + str(n) + "_" + t + ".png")
 
     # for it in range(0, 125):
     #     ti = random.randrange(10, 100)
