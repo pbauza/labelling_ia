@@ -120,21 +120,29 @@ def get_shape_accuracy(labels, gt):
     return str(sum(1 for x, y in zip(labels, gt) if x == y)/len(labels))
 
 def get_color_accuracy(labels, gt):
-    c = np.empty([len(labels)], np.object)
-    c[:] = np.nan
-    p = np.empty([len(labels)], np.object)
-    p[:] = np.nan
+    # c = np.empty([len(labels)], np.object)
+    # c[:] = np.nan
+    # p = np.empty([len(labels)], np.object)
+    # p[:] = np.nan
+    #
+    # for i in range(len(labels)):
+    #     c[i], p[i] = np.unique(labels[i], return_counts=True)
+    #     p[i] = p[i] / len(labels[i])
+    #
+    # labels = []
+    # for index, i in enumerate(p):
+    #     m = np.argwhere(i == np.amax(i)).flatten().tolist()
+    #     labels.append(c[index][m].tolist())
+    #
+    # return str(sum(1 for x, y in zip(labels, gt) if x == y)/len(labels))
 
+    color_accuracy = 0
     for i in range(len(labels)):
-        c[i], p[i] = np.unique(labels[i], return_counts=True)
-        p[i] = p[i] / len(labels[i])
-
-    labels = []
-    for index, i in enumerate(p):
-        m = np.argwhere(i == np.amax(i)).flatten().tolist()
-        labels.append(c[index][m].tolist())
-
-    return str(sum(1 for x, y in zip(labels, gt) if x == y)/len(labels))
+        labels_set = list(set(labels[i]))
+        for j in range(len(set(labels_set))):
+            if labels_set[j] in gt[i]:
+                color_accuracy += 1/len(gt[i])
+    return str(color_accuracy)
 
 
 if __name__ == '__main__':
@@ -187,7 +195,7 @@ if __name__ == '__main__':
 
     types = ['Inter', 'Intra', 'Fisher']
 
-    list = []
+    lista = []
     n = 20
     t = 'Intra'
     f.write(str(-1) + ',' + str(n) + "," + t + ",")
@@ -195,45 +203,45 @@ if __name__ == '__main__':
     for i in range(0, n_images_c):
          km = KMeans(test_imgs[i], 2)
          km.find_bestKImprovement(10, n, t)
-         list.append(get_colors(km.centroids))
-     f.write(get_color_accuracy(list, test_color_labels[:40]) + "\n")
-     retrieval_by_color(test_imgs[:n_images_c], list, ['Red', 'White'],
+         lista.append(get_colors(km.centroids))
+     f.write(get_color_accuracy(lista, test_color_labels[:40]) + "\n")
+     retrieval_by_color(test_imgs[:n_images_c], lista, ['Red', 'White'],
                         "./imatges_proves/color/" + "rw" + "_" + str(n) + "_" + t + ".png")
 
     for it in range(0, 100):
         n = random.randrange(5, 95)
         t = types[0]
         f.write(str(it) + "," + str(n) + "," + t + ",")
-        list = []
+        lista = []
         for i in range(0, n_images_c):
             km = KMeans(test_imgs[i], 2)
             km.find_bestKImprovement(10, n, t)
-            list.append(get_colors(km.centroids))
-        f.write(get_color_accuracy(list, test_color_labels[:n_images_c]) + "\n")
-        # retrieval_by_color(test_imgs[:n_images_c], list, ['Red', 'White'],
+            lista.append(get_colors(km.centroids))
+        f.write(get_color_accuracy(lista, test_color_labels[:n_images_c]) + "\n")
+        # retrieval_by_color(test_imgs[:n_images_c], lista, ['Red', 'White'],
         #                    "./imatges_proves/color/" + "rw" + "_" + str(n) + "_" + t + ".png")
 
         t = types[1]
         f.write(str(it) + "," + str(n) + "," + t + ",")
-        list = []
+        lista = []
         
         for i in range(0, n_images_c):
             km1 = KMeans(test_imgs[i], 2)
             km1.find_bestKImprovement(10, n, t)
-            list.append(get_colors(km1.centroids))
-        f.write(get_color_accuracy(list, test_color_labels[:n_images_c]) + "\n")
-        # retrieval_by_color(test_imgs[:n_images_c], list, ['Red', 'White'],
+            lista.append(get_colors(km1.centroids))
+        f.write(get_color_accuracy(lista, test_color_labels[:n_images_c]) + "\n")
+        # retrieval_by_color(test_imgs[:n_images_c], lista, ['Red', 'White'],
         #                    "./imatges_proves/color/" + "rw" + "_" + str(n) + "_" + t + ".png")
 
         t = types[2]
         f.write(str(it) + "," + str(n) + "," + t + ",")
-        list = []
+        lista = []
         for i in range(0, n_images_c):
             km2 = KMeans(test_imgs[i], 2)
             km2.find_bestKImprovement(10, n, t)
-            list.append(get_colors(km2.centroids))
-            f.write(get_color_accuracy(list, test_color_labels[:n_images_c]) + "\n")
-            #retrieval_by_color(test_imgs[:n_images_c], list, ['Red', 'White'],
+            lista.append(get_colors(km2.centroids))
+            f.write(get_color_accuracy(lista, test_color_labels[:n_images_c]) + "\n")
+            #retrieval_by_color(test_imgs[:n_images_c], lista, ['Red', 'White'],
             #                    "./imatges_proves/color/" + "rw" + "_" + str(n) + "_" + t + ".png")
 
         for it in range(0, 125):
@@ -246,7 +254,7 @@ if __name__ == '__main__':
                  "Dresses"], "./imatges_proves/shape/" + "dresses" + "_" + str(ti) + ".png")
 
 
-    retrieval_by_color(test_imgs[0:40], list, ['Yellow', 'Black'])
+    retrieval_by_color(test_imgs[0:40], lista, ['Yellow', 'Black'])
 
     f.close()
     f1.close()
